@@ -25,7 +25,7 @@ public class SpringKafkaMessaging {
         }
     }
 
-    @KafkaListener(topics = "tutorialspoint", groupId = "pt-api-canon-kafka-group")
+    @KafkaListener(topics = "tutorialspoint", groupId = "dj-kafka-group")
     public void listen(String message) {
         long counterValue = counter.incrementAndGet();
         if (counterValue % 1_000 == 0) {

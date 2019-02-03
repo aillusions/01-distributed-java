@@ -22,7 +22,7 @@ public class StreamsOperator {
     //     kafkaTemplate.send("streams-json-input", " {\"key\":\"somekey\",\"words\":[\"word" + counter.incrementAndGet() + "\"]}");
     // }
 
-    @KafkaListener(topics = "streams-json-output", groupId = "pt-api-canon-kafka-group")
+    @KafkaListener(topics = "streams-json-output", groupId = "dj-kafka-group")
     public void listen(String message) {
         log.info("Received message: " + message);
     }
