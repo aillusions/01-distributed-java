@@ -12,6 +12,7 @@
         <module>kafka</module>
         <module>postgres</module>
         <module>redis</module>
+        <module>redis-lock</module>
         <module>zookeeper</module>
         <module>springboot-admin</module>
         <module>mysql</module>

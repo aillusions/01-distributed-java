@@ -24,5 +24,4 @@ public interface TempEntryDao extends PagingAndSortingRepository<TempEntry, Long
     @Query("select o from TempEntry o where o.id = :id")
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     TempEntry getOneForUpdate(@Param("id") Long id);
-
 }
