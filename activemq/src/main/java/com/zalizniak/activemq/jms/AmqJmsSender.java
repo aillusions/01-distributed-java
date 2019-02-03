@@ -20,7 +20,7 @@ public class AmqJmsSender {
         jmsTemplate.convertAndSend(JMS_QUEUE, msg);
     }
 
-    @Scheduled(fixedDelay = (long) (5 * 1000))
+    @Scheduled(fixedDelay = (long) (500))
     public void run() {
         enqueueMessage(new EnqueuedMessageDto(System.currentTimeMillis(), DateTime.now()));
     }
