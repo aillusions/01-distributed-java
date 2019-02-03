@@ -1,0 +1,229 @@
+version: '3.7'
+
+services:
+
+  #  dj-postgres:
+  #    image: postgres:10.4
+  #    container_name: dj-postgres-srv
+  #    ports:
+  #      - 5432:5432
+  #    environment:
+  #      POSTGRES_PASSWORD: qwerty
+  #      PGDATA: /var/lib/postgresql/data
+  #    volumes:
+  #      - ./postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh
+  #      - dj_postgres_data:/var/lib/postgresql/data
+  #    networks:
+  #      - dj-network
+
+  dj-postgres:
+    image: kartoza/postgis:9.5-2.2
+    container_name: dj-postgres-srv
+    hostname: dj-postgres-srv
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_USER: dj_pg_db_user
+      POSTGRES_PASS: qwerty
+      POSTGRES_DBNAME: dj_pg_db
+      ALLOW_IP_RANGE: 0.0.0.0/0
+    #   blkio_config:
+    #     device_read_iops:
+    #     - path: /
+    #       rate: 30
+    #     device_write_iops:
+    #     - path: /
+    #       rate: 30
+    volumes:
+    - dj_postgis_data:/var/lib/postgresql
+    networks:
+    - dj-network
+
+  # dj-adminer:
+  #   image: adminer
+  #   container_name: dj-adminer-srv
+  #   ports:
+  #   - 81:8080
+  #   networks:
+  #   - dj-network
+
+  # http://localhost:82
+  # pgadmin4@pgadmin.org / admin
+  dj-pgadmin:
+    image: fenglc/pgadmin4
+    container_name: dj-pgadmin-srv
+    volumes:
+    - dj_pgadmin_data:/var/lib/pgadmin
+    ports:
+    - 82:5050
+    networks:
+    - dj-network
+
+  # docker run -it --link dj-redis-srv:redis --network=dj-network --rm redis:5.0.1 redis-cli -h redis -p 6379
+  dj-redis:
+    image: redis:5.0.1
+    container_name: dj-redis-srv
+    ports:
+    - 6379:6379
+    volumes:
+    - dj_redis_data:/data
+    networks:
+    - dj-network
+
+  # https://joeferner.github.io/redis-commander/
+  # http://localhost:8081
+  dj-redis-commander:
+    container_name: dj-redis-commander-srv
+    hostname: dj-redis-commander-srv
+    image: rediscommander/redis-commander:latest
+    depends_on:
+    - dj-redis
+    environment:
+    - REDIS_HOSTS=local-redis:dj-redis-srv:6379
+    ports:
+    - "8081:8081"
+    networks:
+    - dj-network
+
+  #  https://hub.docker.com/r/cloudera/quickstart/
+  #  dj-hadoop:
+  #    container_name: dj-hadoop-srv
+  #    hostname: dj-hadoop-srv
+  #    image: cloudera/quickstart:latest
+  #    environment:
+  #    - REDIS_HOSTS=local-redis:dj-redis-srv:6379
+  #    ports:
+  #    - "8081:8081"
+  #    networks:
+  #    - dj-network
+
+  # https://hub.docker.com/r/uhopper/hadoop/
+  # http://localhost:50070/dfshealth.html#tab-overview
+  dj-hadoop:
+    image: uhopper/hadoop-namenode
+    hostname: dj-hadoop-srv
+    container_name: dj-hadoop-srv
+    ports:
+    - 50070:50070
+    networks:
+    - dj-network
+    #    domainname: hadoop
+    #    net: hadoop
+    #    volumes:
+    #    - <NAMENODE-VOLUME>:/hadoop/dfs/name
+    environment:
+    #    - GANGLIA_HOST=<GMOND-RECEIVER-HOST>
+    - CLUSTER_NAME=dj-hadoop-cluster
+
+  # http://localhost:1111
+  dj-boot-admin:
+    image: slydeveloper/spring-boot-admin
+    hostname: dj-boot-admin-srv
+    container_name: dj-boot-admin-srv
+    environment:
+    - SPRING_BOOT_ADMIN_TITLE=DJ spring boot admin
+    - SPRING_BOOT_ADMIN_SECURITY_ENABLED=false
+    ports:
+    - 1111:1111
+    networks:
+    - dj-network
+
+  #$ nc -vz localhost 9092
+  # http://www.kafkatool.com/download.html
+  dj-kafka:
+    image: wurstmeister/kafka:2.12-2.1.0
+    container_name: dj-kafka-srv
+    hostname: dj-kafka-srv
+    ports:
+    - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: dj-zoo-srv:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+    - dj-network
+
+  # Read more: https://github.com/yahoo/kafka-manager
+  # http://localhost:9000
+  # Add Cluster Zookeeper Hosts: dj-zoo-srv:2181
+  dj-kafka-manager:
+    image: sheepkiller/kafka-manager:stable
+    container_name: dj-kafka-manager-srv
+    hostname: dj-kafka-manager-srv
+    ports:
+    - 9000:9000
+    environment:
+      ZK_HOSTS: "dj-zoo-srv:2181"
+    #  APPLICATION_SECRET: letmein
+    depends_on:
+    - dj-zoo
+    networks:
+    - dj-network
+
+  #$ nc -vz localhost 2181
+  dj-zoo:
+    image: zookeeper:3.4.13
+    container_name: dj-zoo-srv
+    hostname: dj-zoo-srv
+    ports:
+    - 2181:2181
+    environment:
+      ZOO_MY_ID: dev-zoo
+    networks:
+    - dj-network
+
+  # http://localhost:8000
+  # - connection string -> dj-zoo-srv:2181
+  dj-zoo-nav-web:
+    image: elkozmon/zoonavigator-web:latest
+    container_name: dj-zoo-nav-web-srv
+    hostname: dj-zoo-nav-web-srv
+    ports:
+    - "8000:8000"
+    environment:
+      API_HOST: "dj-zoo-nav-srv"
+      API_PORT: 9000
+    depends_on:
+    - dj-zoo-nav-api
+    networks:
+    - dj-network
+
+  dj-zoo-nav-api:
+    image: elkozmon/zoonavigator-api:latest
+    container_name: dj-zoo-nav-srv
+    hostname: dj-zoo-nav-srv
+    environment:
+      SERVER_HTTP_PORT: 9000
+    depends_on:
+    - dj-zoo
+    networks:
+    - dj-network
+
+  # http://localhost:8161/amq/admin/queues.jsp
+  dj-amq:
+    image: webcenter/activemq:5.14.3
+    container_name: dj-amq-srv
+    ports:
+    - 61616:61616
+    - 8161:8161
+    - 8190:8190
+    - 61613:61613
+    networks:
+    - dj-network
+
+networks:
+  dj-network:
+    name: dj-network
+
+volumes:
+  dj_postgres_data:
+    name: dj_postgres_data
+  dj_postgis_data:
+    name: dj_postgis_data
+  dj_pgadmin_data:
+    name: dj_pgadmin_data
+  dj_redis_data:
+    name: dj_redis_data
