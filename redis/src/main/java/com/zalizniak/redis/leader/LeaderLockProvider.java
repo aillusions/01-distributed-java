@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public class LeaderLockProvider implements LockProvider {
 
-    private CustomLeaderCandidate candidate;
+    private RedisElectionConfig.CoordinatorLeaderCandidate candidate;
 
-    public LeaderLockProvider(CustomLeaderCandidate candidate) {
+    public LeaderLockProvider(RedisElectionConfig.CoordinatorLeaderCandidate candidate) {
         this.candidate = candidate;
     }
 
