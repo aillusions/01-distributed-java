@@ -18,7 +18,7 @@ public class RequestRateLimiter {
     private RateLimiterService rateLimiterService;
 
     @Getter
-    private Integer batchSize = 14;
+    private Integer batchSize = 5;
 
     public void acquire() {
 

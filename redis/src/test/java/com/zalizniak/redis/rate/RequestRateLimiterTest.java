@@ -18,6 +18,18 @@ public class RequestRateLimiterTest {
     private RequestRateLimiter requestRateLimiter;
 
     @Test
+    public void shouldShowThrottle() throws InterruptedException {
+        Thread.sleep(1000);
+
+        for (int i = 0; i < 20; i++) {
+            long start = System.currentTimeMillis();
+            requestRateLimiter.acquire();
+            long delta = System.currentTimeMillis() - start;
+            log.info("requestRateLimiter acquired in: " + delta + " ms.");
+        }
+    }
+
+    @Test
     public void shouldThrottle() {
         int emailsNum = 0;
         long startOverall = System.currentTimeMillis();
@@ -28,9 +40,9 @@ public class RequestRateLimiterTest {
             emailsNum++;
         }
 
-        long EMAIL_RATE_LIMITER_AVG_MS_PER_EMAIL = (RequestRateLimiter.REDIS_RATE_LIMITER_DURATION_SEC * 1000) / requestRateLimiter.getBatchSize();
+        long avgMsPerEmail = (RequestRateLimiter.REDIS_RATE_LIMITER_DURATION_SEC * 1000) / requestRateLimiter.getBatchSize();
 
-        long expectedMs = (EMAIL_RATE_LIMITER_AVG_MS_PER_EMAIL * emailsNum) - 1000;
+        long expectedMs = (avgMsPerEmail * emailsNum) - 1000;
 
         long spentMs = System.currentTimeMillis() - startOverall;
         long emailsPerSec = (emailsNum - requestRateLimiter.getBatchSize()) / (spentMs / 1000);
