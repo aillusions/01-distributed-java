@@ -19,11 +19,9 @@ public class RequestRateLimiterTest {
 
     @Test
     public void shouldShowThrottle() throws InterruptedException {
-        Thread.sleep(1000);
-
         for (int i = 0; i < 20; i++) {
             long start = System.currentTimeMillis();
-            requestRateLimiter.acquire();
+            requestRateLimiter.acquire("second-test");
             long delta = System.currentTimeMillis() - start;
             log.info("requestRateLimiter acquired in: " + delta + " ms.");
         }
@@ -33,19 +31,19 @@ public class RequestRateLimiterTest {
     public void shouldThrottle() {
         int emailsNum = 0;
         long startOverall = System.currentTimeMillis();
-        for (int i = 0; i <= (requestRateLimiter.getBatchSize() * 4); i++) {
+        for (int i = 0; i <= (RequestRateLimiter.REDIS_RATE_LIMITER_BATCH_SIZE * 4); i++) {
             long start = System.currentTimeMillis();
-            requestRateLimiter.acquire();
+            requestRateLimiter.acquire("first-test");
             log.info("Acquired in: " + (System.currentTimeMillis() - start) + " ms.");
             emailsNum++;
         }
 
-        long avgMsPerEmail = (RequestRateLimiter.REDIS_RATE_LIMITER_DURATION_SEC * 1000) / requestRateLimiter.getBatchSize();
+        long avgMsPerEmail = (RequestRateLimiter.REDIS_RATE_LIMITER_DURATION_SEC * 1000) / RequestRateLimiter.REDIS_RATE_LIMITER_BATCH_SIZE;
 
         long expectedMs = (avgMsPerEmail * emailsNum) - 1000;
 
         long spentMs = System.currentTimeMillis() - startOverall;
-        long emailsPerSec = (emailsNum - requestRateLimiter.getBatchSize()) / (spentMs / 1000);
+        long emailsPerSec = (emailsNum - RequestRateLimiter.REDIS_RATE_LIMITER_BATCH_SIZE) / (spentMs / 1000);
 
         log.info("Sent: " + emailsNum + " emails, in: " + spentMs + " ms, with avg: " + emailsPerSec + " emails/sec.");
 
