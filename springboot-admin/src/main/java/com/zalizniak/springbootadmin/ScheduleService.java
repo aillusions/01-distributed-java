@@ -10,6 +10,6 @@ public class ScheduleService {
 
     @Scheduled(fixedDelay = 10_000)
     public void run(){
-        log.info("Logged message");
+        log.debug("Logged message");
     }
 }

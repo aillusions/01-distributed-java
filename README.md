@@ -35,18 +35,23 @@ SpringBoot admin:
     http://localhost:1111    
     
 
-springboot-admin Actuator     
-    http://localhost:8094/actuator/health    
-    http://localhost:8094/actuator/loggers
-    http://localhost:8094/actuator/conditions
-    http://localhost:8094/actuator/auditevents
-    http://localhost:8094/actuator/flyway
-    http://localhost:8094/actuator/httptrace
-    http://localhost:8094/actuator/beans
-    http://localhost:8094/actuator
-    http://localhost:8094/actuator/metrics
-    http://localhost:8094/actuator/metrics/jvm.memory.used
-    http://localhost:8094/actuator/metrics/jvm.memory.used?tag=area:nonheap&tag=id:Metaspace
-    http://localhost:8094/actuator/scheduledtasks
-    http://localhost:8094/actuator/env
-    http://localhost:8094/actuator/configprops
+springboot-admin 
+
+    Home 
+        http://127.0.0.1:8094/
+
+    Actuator     
+        http://localhost:8094/actuator/health    
+        http://localhost:8094/actuator/loggers
+        http://localhost:8094/actuator/conditions
+        http://localhost:8094/actuator/auditevents
+        http://localhost:8094/actuator/flyway
+        http://localhost:8094/actuator/httptrace
+        http://localhost:8094/actuator/beans
+        http://localhost:8094/actuator
+        http://localhost:8094/actuator/metrics
+        http://localhost:8094/actuator/metrics/jvm.memory.used
+        http://localhost:8094/actuator/metrics/jvm.memory.used?tag=area:nonheap&tag=id:Metaspace
+        http://localhost:8094/actuator/scheduledtasks
+        http://localhost:8094/actuator/env
+        http://localhost:8094/actuator/configprops
