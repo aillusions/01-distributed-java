@@ -1,4 +1,4 @@
-package com.zalizniak.activemq;
+package com.zalizniak.activemq.jms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

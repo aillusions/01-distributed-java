@@ -1,4 +1,4 @@
-package com.zalizniak.activemq;
+package com.zalizniak.activemq.jms.searialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

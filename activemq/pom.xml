@@ -51,6 +51,11 @@
 			<version>3.8.1</version>
 		</dependency>
 
+        <!-- so app instance keeps running -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
