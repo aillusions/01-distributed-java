@@ -1,4 +1,4 @@
-package com.zalizniak.postgres;
+package com.zalizniak.postgres.dao;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.zalizniak.postgres;
+package com.zalizniak.postgres.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
