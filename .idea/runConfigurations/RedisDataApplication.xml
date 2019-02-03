@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="RedisDataApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="RedisDataApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <module name="redis-data" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.zalizniak.redis.RedisDataApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
