@@ -16,10 +16,16 @@ PG Admin
     User: dj_pg_db_user / qwerty    
     
 Adminer: 
-
     http://localhost:81   
     
     Mysql:
         Host: dj-mysql-srv 3306
         User:  root / qwerty 
         DB: dj-db
+
+Redis commander: 
+    http://localhost:8081      
+    
+Active MQ:     
+    http://localhost:8161/admin/queues.jsp
+    admin / admin  

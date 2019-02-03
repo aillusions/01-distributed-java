@@ -211,6 +211,11 @@ services:
     - 8161:8161
     - 8190:8190
     - 61613:61613
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_CONFIG_MINMEMORY: 128
+      ACTIVEMQ_CONFIG_MAXMEMORY: 1024
     networks:
     - dj-network
 
