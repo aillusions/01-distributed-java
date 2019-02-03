@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="RedisRatelimitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="redis (1)" />
+    <module name="redis-ratelimit" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.zalizniak.redis.*" />
