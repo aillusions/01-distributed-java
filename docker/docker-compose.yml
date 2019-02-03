@@ -39,13 +39,13 @@ services:
     networks:
     - dj-network
 
-  # dj-adminer:
-  #   image: adminer
-  #   container_name: dj-adminer-srv
-  #   ports:
-  #   - 81:8080
-  #   networks:
-  #   - dj-network
+  dj-adminer:
+    image: adminer
+    container_name: dj-adminer-srv
+    ports:
+    - 81:8080
+    networks:
+    - dj-network
 
   # http://localhost:82
   # pgadmin4@pgadmin.org / admin
@@ -214,6 +214,20 @@ services:
     networks:
     - dj-network
 
+  dj-mysql:
+    image: mysql
+    container_name: dj-mysql-srv
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_DATABASE: dj-db
+    volumes:
+    - dj_mysql_data:/var/lib/mysql/
+    ports:
+    - 3306:3306
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network
@@ -227,3 +241,5 @@ volumes:
     name: dj_pgadmin_data
   dj_redis_data:
     name: dj_redis_data
+  dj_mysql_data:
+    name: dj_mysql_data
