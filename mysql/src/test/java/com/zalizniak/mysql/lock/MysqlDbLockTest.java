@@ -15,17 +15,17 @@ import java.util.*;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DbLockTest extends TestCase {
+public class MysqlDbLockTest extends TestCase {
 
     public static final long ID = 100L;
     @Autowired
     private TempEntryDao dao;
 
     @Autowired
-    private DbLockWorker1 dbLockWorker1;
+    private MysqlDbLockWorker1 mysqlDbLockWorker1;
 
     @Autowired
-    private DbLockWorker2 dbLockWorker2;
+    private MysqlDbLockWorker2 mysqlDbLockWorker2;
 
     @Test
     public void testLock() throws InterruptedException {
@@ -40,8 +40,8 @@ public class DbLockTest extends TestCase {
 
         List<String> logCollector = Collections.synchronizedList(new LinkedList<>());
 
-        dbLockWorker1.transactional(ID, logCollector);
-        dbLockWorker2.transactional(ID, logCollector);
+        mysqlDbLockWorker1.transactional(ID, logCollector);
+        mysqlDbLockWorker2.transactional(ID, logCollector);
 
         Thread.sleep(4000);
 

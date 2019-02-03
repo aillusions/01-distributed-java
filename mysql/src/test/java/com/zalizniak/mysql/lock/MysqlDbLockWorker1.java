@@ -12,18 +12,18 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class DbLockWorker1 {
+public class MysqlDbLockWorker1 {
 
     @Autowired
-    private DbLockSubWorker1 dbLockSubWorker1;
+    private MysqlDbLockSubWorker1 mysqlDbLockSubWorker1;
 
     @Async
     public void transactional(Long id, List<String> logCollector) throws InterruptedException {
-        dbLockSubWorker1.transactional(id, logCollector);
+        mysqlDbLockSubWorker1.transactional(id, logCollector);
     }
 
     @Service
-    public static class DbLockSubWorker1 {
+    public static class MysqlDbLockSubWorker1 {
 
         @Autowired
         private TempEntryDao dao;
