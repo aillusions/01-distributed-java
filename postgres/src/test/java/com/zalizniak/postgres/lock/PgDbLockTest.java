@@ -46,12 +46,16 @@ public class PgDbLockTest extends TestCase {
         pgDbLockWorker1.transactional(ID, logCollector);
         pgDbLockWorker2.transactional(ID, logCollector);
 
-        Thread.sleep(5000);
+        Thread.sleep(4_000);
 
-        String expected = "[Worker1 started., Worker1 retrieved entity., Worker2 started., Worker1 saved., Worker1 exited., Worker2 retrieved entity: 123, Worker2 saved., Worker2 exited.]";
-        log.info("logCollector: " + logCollector.toString());
+        String expected = "[Worker1 started., Worker1 retrieved entity., Worker2 started., Worker1 saved., Worker1 exited., " +
+                "Worker2 retrieved entity: 123                                                                                                                                                                                                                                             ," +
+                " Worker2 saved., Worker2 exited.]";
 
-        assertEquals(expected, logCollector.toString());
+        String actual = logCollector.toString();
+        log.info("logCollector: " + actual);
+
+        assertEquals(expected, actual);
     }
 
 }

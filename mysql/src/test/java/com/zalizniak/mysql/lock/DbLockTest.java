@@ -46,9 +46,10 @@ public class DbLockTest extends TestCase {
         Thread.sleep(4000);
 
         String expected = "[Worker1 started., Worker1 retrieved entity., Worker2 started., Worker1 saved., Worker1 exited., Worker2 retrieved entity: 123, Worker2 saved., Worker2 exited.]";
-        log.info("logCollector: " + logCollector.toString());
+        String actual = logCollector.toString();
+        log.info("logCollector: " + actual);
 
-        assertEquals(expected, logCollector.toString());
+        assertEquals(expected, actual);
     }
 
 }
