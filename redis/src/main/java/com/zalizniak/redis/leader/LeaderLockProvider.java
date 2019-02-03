@@ -1,4 +1,4 @@
-package com.zalizniak.redis;
+package com.zalizniak.redis.leader;
 
 
 import net.javacrumbs.shedlock.core.LockConfiguration;

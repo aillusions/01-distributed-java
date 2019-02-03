@@ -1,4 +1,4 @@
-package com.zalizniak.redis;
+package com.zalizniak.redis.rate;
 
 import es.moki.ratelimitj.core.limiter.request.RequestLimitRule;
 import es.moki.ratelimitj.core.limiter.request.RequestRateLimiter;

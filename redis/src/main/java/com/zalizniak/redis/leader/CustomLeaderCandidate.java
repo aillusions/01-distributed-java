@@ -1,4 +1,4 @@
-package com.zalizniak.redis;
+package com.zalizniak.redis.leader;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
