@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zalizniak</groupId>
-	<artifactId>redis</artifactId>
+	<artifactId>redis-data</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis</name>
+	<name>redis-data</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

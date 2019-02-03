@@ -11,7 +11,7 @@
     <modules>
         <module>kafka</module>
         <module>postgres</module>
-        <module>redis</module>
+        <module>redis-data</module>
         <module>redis-lock</module>
         <module>redis-leader</module>
         <module>redis-ratelimit</module>
