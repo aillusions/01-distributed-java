@@ -18,7 +18,7 @@ public class RedisPublisher {
         this.topic = topic;
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 100)
     public void publish() {
         template.convertAndSend(topic.getTopic(),
                 "Message " + counter.incrementAndGet() + ", " + Thread.currentThread().getName());

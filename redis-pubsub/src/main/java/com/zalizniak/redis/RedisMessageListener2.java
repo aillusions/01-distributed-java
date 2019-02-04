@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
-public class RedisMessageListener implements MessageListener {
+public class RedisMessageListener2 implements MessageListener {
 
     @Getter
     private final List<String> messages = Collections.synchronizedList(new LinkedList<>());

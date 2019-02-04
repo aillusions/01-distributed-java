@@ -2,6 +2,7 @@ package com.zalizniak.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -46,8 +47,23 @@ public class RedisConfig {
     }
 
     @Bean
+    public RedisMessageListener redisMessageListener1(){
+        return new RedisMessageListener();
+    }
+
+    @Bean
+    public RedisMessageListener2 redisMessageListener2(){
+        return new RedisMessageListener2();
+    }
+
+    @Bean
     public MessageListenerAdapter messageListener() {
-        return new MessageListenerAdapter(new RedisMessageListener());
+        return new MessageListenerAdapter(redisMessageListener1());
+    }
+
+    @Bean
+    public MessageListenerAdapter messageListener2() {
+        return new MessageListenerAdapter(redisMessageListener2());
     }
 
     @Bean
@@ -56,11 +72,13 @@ public class RedisConfig {
 
         container.setConnectionFactory(redisConnectionFactory());
         container.addMessageListener(messageListener(), topic());
+        container.addMessageListener(messageListener2(), topic());
 
         return container;
     }
 
     @Bean
+    @ConditionalOnProperty(value = "com.zalizniak.dj-redis.pubsub.publisher.enabled", havingValue = "true")
     public RedisPublisher redisPublisher() {
         return new RedisPublisher(redisTemplate(), topic());
     }
