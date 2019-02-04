@@ -37,12 +37,6 @@
     	</dependency>-->
 
 		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson</artifactId>
-			<version>3.9.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>es.moki.ratelimitj</groupId>
 			<artifactId>ratelimitj-redis</artifactId>
 			<version>0.5.0</version>
