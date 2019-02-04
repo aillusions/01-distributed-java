@@ -22,7 +22,7 @@ import java.util.concurrent.*;
 /**
  * CountDownLatch
  * CyclicBarrier
- * Semaphore
+ * Semaphore - limits number of
  * Mutex
  */
 @Slf4j
@@ -60,13 +60,15 @@ public class RedisLockTest extends TestCase {
         Future future1 = lockWorker1.lockable(lock, logCollector, cyclicBarrier);
         Future future2 = lockWorker2.lockable(lock, logCollector, cyclicBarrier);
 
-        future1.get();
         future2.get();
+        future1.get();
 
+        long timeToRun = (System.currentTimeMillis() - start);
         String expected = "[Worker1 acquired lock., Worker2 check: is locked: true, Worker1 unlocked., Worker2 acquired lock, Worker2 unlocked.]";
-        log.info("logCollector: in " + (System.currentTimeMillis() - start) + " ms: " + logCollector.toString());
+        log.info("logCollector: in " + timeToRun + " ms: " + logCollector.toString());
 
         assertEquals(expected, logCollector.toString());
+        assertTrue(timeToRun < 300);
     }
 
     @Slf4j
