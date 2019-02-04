@@ -17,11 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
+/**
+ * CountDownLatch
+ * CyclicBarrier
+ * Semaphore
+ * Mutex
+ */
 @Slf4j
 @RunWith(SpringRunner.class)
 @EnableAsync
@@ -41,24 +44,27 @@ public class RedisLockTest extends TestCase {
     private RedissonClient redisson;
 
     @Test
-    public void testLock() throws InterruptedException, ExecutionException {
+    public void testLock() throws InterruptedException, ExecutionException, BrokenBarrierException {
 
         String key = java.util.UUID.randomUUID().toString();
 
         List<String> logCollector = Collections.synchronizedList(new LinkedList<>());
 
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
         //Semaphore semaphore = new Semaphore(1, true);
-        RLock lock1 = redisson.getLock(key);
-        RLock lock2 = redisson.getLock(key);
 
-        Future future1 = lockWorker1.lockable(lock1, logCollector);
-        Future future2 = lockWorker2.lockable(lock2, logCollector);
+        RLock lock = redisson.getLock(key);
+
+        long start = System.currentTimeMillis();
+
+        Future future1 = lockWorker1.lockable(lock, logCollector, cyclicBarrier);
+        Future future2 = lockWorker2.lockable(lock, logCollector, cyclicBarrier);
 
         future1.get();
         future2.get();
 
-        String expected = "[Worker1 started., Worker1 acquired lock., Worker2 started., Worker2 check: is locked: true, Worker1 unlocked., Worker2 acquired lock, Worker2 unlocked.]";
-        log.info("logCollector: " + logCollector.toString());
+        String expected = "[Worker1 acquired lock., Worker2 check: is locked: true, Worker1 unlocked., Worker2 acquired lock, Worker2 unlocked.]";
+        log.info("logCollector: in " + (System.currentTimeMillis() - start) + " ms: " + logCollector.toString());
 
         assertEquals(expected, logCollector.toString());
     }
@@ -68,14 +74,17 @@ public class RedisLockTest extends TestCase {
     public static class Worker1 {
 
         @Async
-        public Future lockable(RLock lock, List<String> logCollector) throws InterruptedException {
-
-            logCollector.add("Worker1 started.");
+        public Future lockable(RLock lock,
+                               List<String> logCollector,
+                               CyclicBarrier cyclicBarrier) throws InterruptedException, BrokenBarrierException {
 
             lock.lock(5000, TimeUnit.MILLISECONDS);
             logCollector.add("Worker1 acquired lock.");
 
-            Thread.sleep(1000); // give Worker2 chance to check isLocked
+            cyclicBarrier.await(); //
+            cyclicBarrier.reset(); // give Worker1 chance to check isLocked
+            cyclicBarrier.await(); //
+
             lock.unlock();
             logCollector.add("Worker1 unlocked.");
 
@@ -88,12 +97,15 @@ public class RedisLockTest extends TestCase {
     public static class Worker2 {
 
         @Async
-        public Future lockable(RLock lock, List<String> logCollector) throws InterruptedException {
-            Thread.sleep(500); // Give Worker1 chance to acquire lock
+        public Future lockable(RLock lock,
+                               List<String> logCollector,
+                               CyclicBarrier cyclicBarrier) throws InterruptedException, BrokenBarrierException {
 
-            logCollector.add("Worker2 started.");
+            cyclicBarrier.await(); // Give Worker1 chance to lock
 
             logCollector.add("Worker2 check: is locked: " + lock.isLocked());
+
+            cyclicBarrier.await(); // Give Worker1 chance to unlock
 
             lock.lock(5000, TimeUnit.MILLISECONDS);
             logCollector.add("Worker2 acquired lock");
