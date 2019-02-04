@@ -18,17 +18,16 @@ import java.util.List;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedisDataTest extends TestCase {
+public class RedisQueueTest extends TestCase {
 
     @Autowired
     private LinksRedisList linksRedisList;
 
     @Test
     public void test() throws MalformedURLException {
-        long oldSize = linksRedisList.size("123456");
-
-        linksRedisList.addLink("123456", new URL("http://google.com"));
-
-        assertEquals(oldSize + 1, linksRedisList.size("123456"));
+        String key = "123456";
+        long oldSize = linksRedisList.size(key);
+        linksRedisList.addLink(key, new URL("http://google.com"));
+        assertEquals(oldSize + 1, linksRedisList.size(key));
     }
 }

@@ -1,13 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="RedisRatelimitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="redis-ratelimit" />
+  <configuration default="false" name="RedisPubsubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <module name="redis-pubsub" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.zalizniak.redis.pubsub.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zalizniak.redis.RedisRatelimitApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zalizniak.redis.RedisPubsubApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">
       <option name="Make" enabled="true" />
