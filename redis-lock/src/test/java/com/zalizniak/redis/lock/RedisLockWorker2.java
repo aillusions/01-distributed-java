@@ -2,28 +2,23 @@ package com.zalizniak.redis.lock;
 
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 public class RedisLockWorker2 {
 
-    @Autowired
-    private RedissonClient redisson;
-
     @Async
-    public void lockable(String uuid, List<String> logCollector) throws InterruptedException {
+    public Future lockable(RLock lock, List<String> logCollector) throws InterruptedException {
         Thread.sleep(500);
 
         logCollector.add("RedisLockWorker2 started.");
-
-        RLock lock = redisson.getLock(uuid);
 
         logCollector.add("RedisLockWorker2 check: is locked: " + lock.isLocked());
 
@@ -34,6 +29,6 @@ public class RedisLockWorker2 {
         lock.unlock();
         logCollector.add("RedisLockWorker2 unlocked.");
 
-        Thread.sleep(100);
+        return CompletableFuture.completedFuture(true);
     }
 }
