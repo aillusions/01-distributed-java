@@ -14,6 +14,8 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.util.concurrent.CountDownLatch;
+
 @Slf4j
 @Configuration
 public class RedisConfig {
@@ -47,8 +49,8 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisMessageListener redisMessageListener1(){
-        return new RedisMessageListener();
+    public RedisMessageListener1 redisMessageListener1(){
+        return new RedisMessageListener1();
     }
 
     @Bean
@@ -86,5 +88,15 @@ public class RedisConfig {
     @Bean
     public ChannelTopic topic() {
         return new ChannelTopic("pubsub:queue");
+    }
+
+    @Bean
+    public CountDownLatch latch1() {
+        return new CountDownLatch(1);
+    }
+
+    @Bean
+    public CountDownLatch latch2() {
+        return new CountDownLatch(1);
     }
 }
