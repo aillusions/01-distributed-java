@@ -20,6 +20,12 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
@@ -32,14 +38,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson</artifactId>
-			<version>3.9.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-redis</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -53,11 +53,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.8.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 	</dependencies>
