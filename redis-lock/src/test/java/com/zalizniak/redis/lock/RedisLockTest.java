@@ -26,16 +26,16 @@ import java.util.concurrent.TimeUnit;
 @RunWith(SpringRunner.class)
 @EnableAsync
 @SpringBootTest(classes = {
-        RedisLockTest.RedisLockWorker1.class,
-        RedisLockTest.RedisLockWorker2.class,
+        RedisLockTest.Worker1.class,
+        RedisLockTest.Worker2.class,
         RedissonSpringDataConfig.class})
 public class RedisLockTest extends TestCase {
 
     @Autowired
-    private RedisLockWorker1 redisLockWorker1;
+    private Worker1 lockWorker1;
 
     @Autowired
-    private RedisLockWorker2 redisLockWorker2;
+    private Worker2 lockWorker2;
 
     @Autowired
     private RedissonClient redisson;
@@ -51,13 +51,13 @@ public class RedisLockTest extends TestCase {
         RLock lock1 = redisson.getLock(key);
         RLock lock2 = redisson.getLock(key);
 
-        Future future1 = redisLockWorker1.lockable(lock1, logCollector);
-        Future future2 = redisLockWorker2.lockable(lock2, logCollector);
+        Future future1 = lockWorker1.lockable(lock1, logCollector);
+        Future future2 = lockWorker2.lockable(lock2, logCollector);
 
         future1.get();
         future2.get();
 
-        String expected = "[RedisLockWorker1 started., RedisLockWorker1 acquired lock., RedisLockWorker2 started., RedisLockWorker2 check: is locked: true, RedisLockWorker1 unlocked., RedisLockWorker2 acquired lock, RedisLockWorker2 unlocked.]";
+        String expected = "[Worker1 started., Worker1 acquired lock., Worker2 started., Worker2 check: is locked: true, Worker1 unlocked., Worker2 acquired lock, Worker2 unlocked.]";
         log.info("logCollector: " + logCollector.toString());
 
         assertEquals(expected, logCollector.toString());
@@ -65,19 +65,19 @@ public class RedisLockTest extends TestCase {
 
     @Slf4j
     @Service
-    public static class RedisLockWorker1 {
+    public static class Worker1 {
 
         @Async
         public Future lockable(RLock lock, List<String> logCollector) throws InterruptedException {
 
-            logCollector.add("RedisLockWorker1 started.");
+            logCollector.add("Worker1 started.");
 
             lock.lock(5000, TimeUnit.MILLISECONDS);
-            logCollector.add("RedisLockWorker1 acquired lock.");
+            logCollector.add("Worker1 acquired lock.");
 
             Thread.sleep(1000); // give Worker2 chance to check isLocked
             lock.unlock();
-            logCollector.add("RedisLockWorker1 unlocked.");
+            logCollector.add("Worker1 unlocked.");
 
             return CompletableFuture.completedFuture(true);
         }
@@ -85,21 +85,21 @@ public class RedisLockTest extends TestCase {
 
     @Slf4j
     @Service
-    public static class RedisLockWorker2 {
+    public static class Worker2 {
 
         @Async
         public Future lockable(RLock lock, List<String> logCollector) throws InterruptedException {
             Thread.sleep(500); // Give Worker1 chance to acquire lock
 
-            logCollector.add("RedisLockWorker2 started.");
+            logCollector.add("Worker2 started.");
 
-            logCollector.add("RedisLockWorker2 check: is locked: " + lock.isLocked());
+            logCollector.add("Worker2 check: is locked: " + lock.isLocked());
 
             lock.lock(5000, TimeUnit.MILLISECONDS);
-            logCollector.add("RedisLockWorker2 acquired lock");
+            logCollector.add("Worker2 acquired lock");
 
             lock.unlock();
-            logCollector.add("RedisLockWorker2 unlocked.");
+            logCollector.add("Worker2 unlocked.");
 
             return CompletableFuture.completedFuture(true);
         }
