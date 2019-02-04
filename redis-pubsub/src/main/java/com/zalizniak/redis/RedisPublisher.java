@@ -14,13 +14,13 @@ public class RedisPublisher {
 
     public RedisPublisher(final RedisTemplate<String, Object> template,
                           final ChannelTopic topic) {
+
         this.template = template;
         this.topic = topic;
     }
 
     @Scheduled(fixedDelay = 100)
     public void publish() {
-        template.convertAndSend(topic.getTopic(),
-                "Message " + counter.incrementAndGet() + ", " + Thread.currentThread().getName());
+        template.convertAndSend(topic.getTopic(), "Message " + counter.incrementAndGet());
     }
 }

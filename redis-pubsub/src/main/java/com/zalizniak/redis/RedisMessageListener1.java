@@ -23,7 +23,7 @@ public class RedisMessageListener1 implements MessageListener {
     @Override
     public void onMessage(final Message message, final byte[] pattern) {
         messages.add(message.toString());
-        log.info("Message received: " + message.toString());
+        log.info("Message received: " + message.toString() + " in thread: " + Thread.currentThread().getName());
         latch1.countDown();
     }
 }
