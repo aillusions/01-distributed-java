@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication
-public class RedisRatelimitApplication {
+public class RedisRatelimitRatelimitjApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RedisRatelimitApplication.class, args);
+		SpringApplication.run(RedisRatelimitRatelimitjApplication.class, args);
 	}
 
 }
