@@ -26,7 +26,7 @@ public class RedisElectionConfig {
     public static final String COORDINATOR_LEADER_ROLE = "COORDINATOR_LEADER_ROLE";
     public static final String COORDINATOR_LEADER_REDIS_KEY = "coordinator-leader-redis-key";
 
-    private static final int ELECTION_REDIS_KEY_EXPIRATION_MS = 60 * 1000; // 1 minute
+    private static final int ELECTION_REDIS_KEY_EXPIRATION_MS = 2 * 1000; // 2 sec
 
     @Autowired
     public RedisConnectionFactory redisConnectionFactory;
