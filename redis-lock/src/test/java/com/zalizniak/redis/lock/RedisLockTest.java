@@ -30,15 +30,11 @@ import java.util.concurrent.*;
 @EnableAsync
 @SpringBootTest(classes = {
         RedisLockTest.Worker1.class,
-        RedisLockTest.Worker2.class,
         RedissonSpringDataConfig.class})
 public class RedisLockTest extends TestCase {
 
     @Autowired
     private Worker1 lockWorker1;
-
-    @Autowired
-    private Worker2 lockWorker2;
 
     @Autowired
     private RedissonClient redisson;
@@ -47,24 +43,40 @@ public class RedisLockTest extends TestCase {
     public void testLock() throws InterruptedException, ExecutionException, BrokenBarrierException {
 
         String key = java.util.UUID.randomUUID().toString();
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
 
         List<String> logCollector = Collections.synchronizedList(new LinkedList<>());
-
-        CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
-        //Semaphore semaphore = new Semaphore(1, true);
 
         RLock lock = redisson.getLock(key);
 
         long start = System.currentTimeMillis();
 
-        Future future1 = lockWorker1.lockable(lock, logCollector, cyclicBarrier);
-        Future future2 = lockWorker2.lockable(lock, logCollector, cyclicBarrier);
+        Future future1 = lockWorker1.lockable(lock, logCollector, "1", cyclicBarrier);
+        if (cyclicBarrier.await() == 0) {
+            cyclicBarrier.reset();
+        }
+        Future future2 = lockWorker1.lockable(lock, logCollector, "2", cyclicBarrier);
+        if (cyclicBarrier.await() == 0) {
+            cyclicBarrier.reset();
+        }
 
         future2.get();
         future1.get();
 
         long timeToRun = (System.currentTimeMillis() - start);
-        String expected = "[Worker1 acquired lock., Worker2 check: is locked: true, Worker1 unlocked., Worker2 acquired lock, Worker2 unlocked.]";
+
+        String expected = "[" +
+                "Worker1 is locked: false, " +
+                "Worker2 is locked: false, " +
+                "Worker2 locked, " +
+                "Worker2 is locked: true, " +
+                "Worker2 unlocked, " +
+                "Worker2 is locked: false, " +
+                "Worker1 locked, " +
+                "Worker1 is locked: true, " +
+                "Worker1 unlocked, " +
+                "Worker1 is locked: false" +
+                "]";
         log.info("logCollector: in " + timeToRun + " ms: " + logCollector.toString());
 
         assertEquals(expected, logCollector.toString());
@@ -78,45 +90,25 @@ public class RedisLockTest extends TestCase {
         @Async
         public Future lockable(RLock lock,
                                List<String> logCollector,
-                               CyclicBarrier cyclicBarrier) throws InterruptedException, BrokenBarrierException {
+                               String idx,
+                               CyclicBarrier cyclicBarrier) throws BrokenBarrierException, InterruptedException {
+
+            logCollector.add("Worker" + idx + " is locked: " + lock.isLocked());
+            if (cyclicBarrier.await() == 0) {
+                cyclicBarrier.reset();
+            }
 
             lock.lock(5000, TimeUnit.MILLISECONDS);
-            logCollector.add("Worker1 acquired lock.");
+            logCollector.add("Worker" + idx + " locked");
 
-            cyclicBarrier.await(); //
-            cyclicBarrier.reset(); // give Worker1 chance to check isLocked
-            cyclicBarrier.await(); //
+            logCollector.add("Worker" + idx + " is locked: " + lock.isLocked());
 
             lock.unlock();
-            logCollector.add("Worker1 unlocked.");
+            logCollector.add("Worker" + idx + " unlocked");
+
+            logCollector.add("Worker" + idx + " is locked: " + lock.isLocked());
 
             return CompletableFuture.completedFuture(true);
         }
     }
-
-    @Slf4j
-    @Service
-    public static class Worker2 {
-
-        @Async
-        public Future lockable(RLock lock,
-                               List<String> logCollector,
-                               CyclicBarrier cyclicBarrier) throws InterruptedException, BrokenBarrierException {
-
-            cyclicBarrier.await(); // Give Worker1 chance to lock
-
-            logCollector.add("Worker2 check: is locked: " + lock.isLocked());
-
-            cyclicBarrier.await(); // Give Worker1 chance to unlock
-
-            lock.lock(5000, TimeUnit.MILLISECONDS);
-            logCollector.add("Worker2 acquired lock");
-
-            lock.unlock();
-            logCollector.add("Worker2 unlocked.");
-
-            return CompletableFuture.completedFuture(true);
-        }
-    }
-
 }
