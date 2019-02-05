@@ -13,7 +13,7 @@
         <module>postgres</module>
         <module>redis-data</module>
         <module>redis-lock-redisson</module>
-        <module>redis-pubsub</module>
+        <module>redis-pubsub-spring-data</module>
         <module>redis-leader-spring-integration</module>
         <module>redis-ratelimit-ratelimitj</module>
         <module>zookeeper</module>

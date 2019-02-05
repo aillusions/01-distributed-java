@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zalizniak</groupId>
-	<artifactId>redis-pubsub</artifactId>
+	<artifactId>redis-pubsub-spring-data</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis-pubsub</name>
+	<name>redis-pubsub-spring-data</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
