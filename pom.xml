@@ -14,7 +14,7 @@
         <module>redis-data</module>
         <module>redis-lock-redisson</module>
         <module>redis-pubsub</module>
-        <module>redis-leader</module>
+        <module>redis-leader-spring-integration</module>
         <module>redis-ratelimit-ratelimitj</module>
         <module>zookeeper</module>
         <module>springboot-admin</module>
