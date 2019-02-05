@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zalizniak</groupId>
-	<artifactId>redis-redisson-lock</artifactId>
+	<artifactId>redis-lock-redisson</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis-redisson-lock</name>
+	<name>redis-lock-redisson</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
