@@ -1,13 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="RedisPubsubApplication-2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="redis-pubsub" />
+  <configuration default="false" name="RedisPubsubSpringDataApplication2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="redis-pubsub-spring-data" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.zalizniak.redis.pubsub.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zalizniak.redis.RedisPubsubApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.zalizniak.redis.RedisPubsubSpringDataApplication" />
     <option name="ACTIVE_PROFILES" value="second" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">

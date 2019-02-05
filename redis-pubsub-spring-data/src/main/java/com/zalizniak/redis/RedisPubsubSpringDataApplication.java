@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication
-public class RedisPubsubApplication {
+public class RedisPubsubSpringDataApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RedisPubsubApplication.class, args);
+        SpringApplication.run(RedisPubsubSpringDataApplication.class, args);
     }
 
 }

@@ -1,7 +1,5 @@
 package com.zalizniak.redis.pubsub;
 
-import com.zalizniak.redis.RedisMessageListener1;
-import com.zalizniak.redis.RedisMessageListener2;
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

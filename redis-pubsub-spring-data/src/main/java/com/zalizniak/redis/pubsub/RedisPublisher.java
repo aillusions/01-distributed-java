@@ -1,4 +1,4 @@
-package com.zalizniak.redis;
+package com.zalizniak.redis.pubsub;
 
 import java.util.concurrent.atomic.AtomicLong;
 

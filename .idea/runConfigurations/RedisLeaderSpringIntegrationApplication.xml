@@ -3,7 +3,7 @@
     <module name="redis-leader-spring-integration" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="com.zalizniak.redis.*" />
+        <option name="PATTERN" value="com.zalizniak.redis.pubsub.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
