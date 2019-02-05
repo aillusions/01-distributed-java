@@ -12,7 +12,7 @@
         <module>kafka</module>
         <module>postgres</module>
         <module>redis-data</module>
-        <module>redis-lock</module>
+        <module>redis-redisson-lock</module>
         <module>redis-pubsub</module>
         <module>redis-leader</module>
         <module>redis-ratelimit</module>

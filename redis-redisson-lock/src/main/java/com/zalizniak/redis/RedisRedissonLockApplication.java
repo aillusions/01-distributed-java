@@ -8,11 +8,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication
-public class RedisLockApplication {
+public class RedisRedissonLockApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RedisLockApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RedisRedissonLockApplication.class, args);
+    }
 
 }
 
