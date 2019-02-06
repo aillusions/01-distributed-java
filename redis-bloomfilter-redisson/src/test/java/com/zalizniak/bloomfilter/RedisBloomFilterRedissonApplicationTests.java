@@ -44,6 +44,7 @@ public class RedisBloomFilterRedissonApplicationTests {
         log.info("expectedInsertions: " + bloomFilter.getExpectedInsertions());
         log.info("falseProbability: " + bloomFilter.getFalseProbability());
         log.info("count: " + bloomFilter.count());
+        log.info("Size: " + bloomFilter.getSize());
 
         assertTrue(bloomFilter.contains("a"));
         assertFalse(bloomFilter.contains("f"));
@@ -65,6 +66,7 @@ public class RedisBloomFilterRedissonApplicationTests {
         log.info("expectedInsertions: " + bloomFilter.getExpectedInsertions());
         log.info("falseProbability: " + bloomFilter.getFalseProbability());
         log.info("count: " + bloomFilter.count());
+        log.info("Size: " + bloomFilter.getSize());
 
         assertTrue(bloomFilter.contains(new BloomData("333444")));
         assertFalse(bloomFilter.contains(new BloomData("000000")));
