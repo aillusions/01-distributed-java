@@ -27,7 +27,8 @@ public class RedisBloomFilterRedissonApplicationTests {
     @Autowired
     private RedissonClient redisson;
 
-    // Number of contained bits is limited to 2^32.
+    // 4294967296 - Number of contained bits is limited to 2^32
+    //  729844083 - size
     @Test
     public void testForString() {
 
