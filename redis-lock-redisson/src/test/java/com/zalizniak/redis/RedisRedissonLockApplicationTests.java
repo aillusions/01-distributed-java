@@ -64,18 +64,7 @@ public class RedisRedissonLockApplicationTests extends TestCase {
 
         long timeToRun = (System.currentTimeMillis() - start);
 
-        String expected = "[" +
-                "Worker1 is locked: false, " +
-                "Worker2 is locked: false, " +
-                "Worker2 locked, " +
-                "Worker2 is locked: true, " +
-                "Worker2 unlocked, " +
-                "Worker2 is locked: false, " +
-                "Worker1 locked, " +
-                "Worker1 is locked: true, " +
-                "Worker1 unlocked, " +
-                "Worker1 is locked: false" +
-                "]";
+        String expected = "[Worker1 is locked: false, Worker2 is locked: false, Worker1 locked, Worker1 is locked: true, Worker1 unlocked, Worker1 is locked: false, Worker2 locked, Worker2 is locked: true, Worker2 unlocked, Worker2 is locked: false]";
         log.info("logCollector: in " + timeToRun + " ms: " + logCollector.toString());
 
         assertEquals(expected, logCollector.toString());
