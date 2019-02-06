@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="RedisBloomFilterRedissonApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="redis-bloomfilter-redisson" />
+    <module name="redis-atomiclong-redisson" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.zalizniak.bloomfilter.*" />
