@@ -15,6 +15,7 @@
         <module>redis-lock-redisson</module>
         <module>redis-pubsub-spring-data</module>
         <module>redis-pubsub-redisson</module>
+        <module>redis-bloomfilter-redisson</module>
         <module>redis-ratelimit-redisson</module>
         <module>redis-leader-spring-integration</module>
         <module>redis-ratelimit-ratelimitj</module>
