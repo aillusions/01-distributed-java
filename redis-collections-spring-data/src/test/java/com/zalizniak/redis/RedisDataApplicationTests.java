@@ -9,35 +9,24 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RedisDataApplicationTests {
 
-    //@Autowired
-    //private StringRedisTemplate redisTemplate;
-
-    // inject the template as ListOperations
     @Resource(name = "redisTemplate")
     private ListOperations<String, String> listOps;
 
     @Test
-    public void test() throws MalformedURLException {
+    public void testList() {
         String key = "123456";
-        long oldSize = size(key);
-        addLink(key, new URL("http://google.com"));
-        Assert.assertEquals(oldSize + 1, size(key));
+        long oldSize = listOps.size(key);
+        Long index = listOps.leftPush(key, "google.com");
+        Assert.assertTrue(index >= 0);
+        Assert.assertEquals(oldSize + 1, (long) listOps.size(key));
+        log.info("Added element to index: " + index);
     }
 
-    public void addLink(String key, URL url) {
-        listOps.leftPush(key, url.toExternalForm());
-    }
-
-    public long size(String key) {
-        return listOps.size(key);
-    }
 }
 
