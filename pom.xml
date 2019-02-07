@@ -11,7 +11,7 @@
     <modules>
         <module>kafka</module>
         <module>postgres</module>
-        <module>redis-data</module>
+        <module>redis-collections-spring-data</module>
         <module>redis-atomiclong-redisson</module>
         <module>redis-lock-redisson</module>
         <module>redis-pubsub-spring-data</module>

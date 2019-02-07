@@ -37,10 +37,12 @@ public class RedisBloomFilterRedissonApplicationTests {
         RBloomFilter<String> bloomFilter = redisson.getBloomFilter(bloomFilterKey);
         bloomFilter.tryInit(100_000_000, 0.03);
 
-        bloomFilter.add("a");
-        bloomFilter.add("b");
-        bloomFilter.add("c");
-        bloomFilter.add("d");
+        assertTrue(bloomFilter.add("a"));
+        assertTrue(bloomFilter.add("b"));
+        assertTrue(bloomFilter.add("c"));
+        assertTrue(bloomFilter.add("d"));
+
+        assertFalse(bloomFilter.add("b"));
 
         log.info("expectedInsertions: " + bloomFilter.getExpectedInsertions());
         log.info("falseProbability: " + bloomFilter.getFalseProbability());
@@ -59,10 +61,12 @@ public class RedisBloomFilterRedissonApplicationTests {
         RBloomFilter<BloomData> bloomFilter = redisson.getBloomFilter(bloomFilterKey);
         bloomFilter.tryInit(100_000_000, 0.03);
 
-        bloomFilter.add(new BloomData("123456"));
-        bloomFilter.add(new BloomData("456789"));
-        bloomFilter.add(new BloomData("111222"));
-        bloomFilter.add(new BloomData("333444"));
+        assertTrue(bloomFilter.add(new BloomData("123456")));
+        assertTrue(bloomFilter.add(new BloomData("456789")));
+        assertTrue(bloomFilter.add(new BloomData("111222")));
+        assertTrue(bloomFilter.add(new BloomData("333444")));
+
+        assertFalse(bloomFilter.add(new BloomData("333444")));
 
         log.info("expectedInsertions: " + bloomFilter.getExpectedInsertions());
         log.info("falseProbability: " + bloomFilter.getFalseProbability());

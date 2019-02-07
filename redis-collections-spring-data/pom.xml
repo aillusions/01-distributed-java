@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zalizniak</groupId>
-	<artifactId>redis-data</artifactId>
+	<artifactId>redis-collections-spring-data</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis-data</name>
+	<name>redis-collections-spring-data</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -44,10 +44,6 @@
 			<version>3.8.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
