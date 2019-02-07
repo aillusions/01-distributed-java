@@ -6,9 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -18,14 +20,29 @@ public class RedisDataApplicationTests {
     @Resource(name = "redisTemplate")
     private ListOperations<String, String> listOps;
 
+    @Resource(name = "redisTemplate")
+    private SetOperations<String, String> setOps;
+
     @Test
     public void testList() {
-        String key = "123456";
-        long oldSize = listOps.size(key);
-        Long index = listOps.leftPush(key, "google.com");
-        Assert.assertTrue(index >= 0);
-        Assert.assertEquals(oldSize + 1, (long) listOps.size(key));
-        log.info("Added element to index: " + index);
+        String key = UUID.randomUUID().toString();
+        String value = UUID.randomUUID().toString();
+
+        Assert.assertEquals(0, (long) listOps.size(key));
+        Assert.assertEquals(1, (long) listOps.leftPush(key, value));
+        Assert.assertEquals(2, (long) listOps.rightPush(key, value));
+        Assert.assertEquals(2, (long) listOps.size(key));
+    }
+
+    @Test
+    public void testSet() {
+        String key = UUID.randomUUID().toString();
+        String value = UUID.randomUUID().toString();
+
+        Assert.assertEquals(0, (long) setOps.size(key));
+        Assert.assertEquals(1, (long) setOps.add(key, value));
+        Assert.assertEquals(0, (long) setOps.add(key, value));
+        Assert.assertEquals(1, (long) setOps.size(key));
     }
 
 }
