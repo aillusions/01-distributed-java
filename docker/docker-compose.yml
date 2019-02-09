@@ -236,6 +236,39 @@ services:
     networks:
     - dj-network
 
+  # https://medium.com/@michaeljpr/five-minute-guide-getting-started-with-cassandra-on-docker-4ef69c710d84
+  # https://github.com/datastax/docker-images
+  # docker exec -it dj-datastax-dse-srv cqlsh
+  dj-datastax-dse:
+    image: datastax/dse-server:6.7.0
+    container_name: dj-datastax-dse-srv
+    environment:
+      DS_LICENSE: accept
+# https://stackoverflow.com/questions/37366857/how-to-pass-arguments-to-entrypoint-in-docker-compose-yml
+#    command: -g -s -k
+    ports:
+    - 9042:9042
+    networks:
+    - dj-network
+
+  # https://github.com/datastax/docker-images
+  # http://localhost:9091/
+  dj-datastax-studio:
+    image: datastax/dse-studio
+    container_name: dj-datastax-studio-srv
+    environment:
+      DS_LICENSE: accept
+    ports:
+    - 9091:9091
+    networks:
+    - dj-network
+
+#  cqlsh:
+#    image: cassandra:3.11
+#    entrypoint: cqlsh cassandra
+#    volumes:
+#    - ./cassandra/schema.cql:/schema.cql
+
   #  docker exec -it dj-cassandra-srv cqlsh
   dj-cassandra:
     image: cassandra:3.11.3
