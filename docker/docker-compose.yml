@@ -236,6 +236,7 @@ services:
     networks:
     - dj-network
 
+  #  docker exec -it dj-cassandra-srv cqlsh
   dj-cassandra:
     image: cassandra:3.11.3
     container_name: dj-cassandra-srv
