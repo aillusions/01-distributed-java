@@ -236,11 +236,26 @@ services:
     networks:
     - dj-network
 
+  dj-cassandra:
+    image: cassandra:3.11.3
+    container_name: dj-cassandra-srv
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_DATABASE: dj-db
+    volumes:
+    - dj_cassandra_data:/var/lib/cassandra
+    ports:
+    - 7000:7000
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network
 
 volumes:
+  dj_cassandra_data:
+    name: dj_cassandra_data
   dj_postgres_data:
     name: dj_postgres_data
   dj_postgis_data:

@@ -24,6 +24,7 @@
         <module>springboot-admin</module>
         <module>mysql</module>
         <module>activemq</module>
+        <module>cassandra-dao</module>
     </modules>
 
 </project>
