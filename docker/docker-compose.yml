@@ -245,7 +245,7 @@ services:
     volumes:
     - dj_cassandra_data:/var/lib/cassandra
     ports:
-    - 7000:7000
+    - 9042:9042
     networks:
     - dj-network
 
