@@ -250,6 +250,19 @@ services:
     networks:
     - dj-network
 
+  # http://localhost:54321/flow/index.html
+  dj-h2o-3-ai:
+    build:
+      context: h2o-3
+      dockerfile: Dockerfile
+    container_name: dj-h2o-3-ai-srv
+    image: h2o-ai:3
+    ports:
+    - 54321:54321
+    - 54322:54322
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network
