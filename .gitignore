@@ -9,6 +9,9 @@
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/jsTestFinder.xml
+.idea/modules.xml
+.idea/jsTestFinder.xml
+.idea/01-distributed-java.iml
 
 # User-specific stuff
 .idea/**/workspace.xml
