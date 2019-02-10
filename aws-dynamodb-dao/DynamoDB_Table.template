@@ -12,6 +12,7 @@
       "myDynamoDBTable": {
         "Type": "AWS::DynamoDB::Table",
         "Properties": {
+          "TableName": "myDynamoDBTable",
           "AttributeDefinitions": [
             {
               "AttributeName": "ArtistId",
@@ -47,17 +48,10 @@
               ],
               "Projection": {
                 "ProjectionType": "KEYS_ONLY"
-              },
-              "ProvisionedThroughput": {
-                "ReadCapacityUnits": 5,
-                "WriteCapacityUnits": 5
               }
             }
           ],
-          "ProvisionedThroughput": {
-            "ReadCapacityUnits": 5,
-            "WriteCapacityUnits": 5
-          }
+          "BillingMode": "PAY_PER_REQUEST"
         }
       }
   },
