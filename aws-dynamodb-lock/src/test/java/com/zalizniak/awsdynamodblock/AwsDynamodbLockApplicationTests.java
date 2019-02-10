@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AwsDynamodbLockApplication_Tests {
+public class AwsDynamodbLockApplicationTests {
 
     @Test
     public void contextLoads() throws IOException, InterruptedException {
