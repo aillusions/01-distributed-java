@@ -17,10 +17,13 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AwsDynamoDbLockApplicationTests {
+public class AwsDynamodbLockApplication_Tests {
 
     @Test
     public void contextLoads() throws IOException, InterruptedException {
