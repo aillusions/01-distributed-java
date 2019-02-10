@@ -25,6 +25,7 @@
         <module>mysql</module>
         <module>activemq</module>
         <module>cassandra-dao</module>
+        <module>aws-dynamodb-dao</module>
     </modules>
 
 </project>

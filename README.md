@@ -55,3 +55,16 @@ springboot-admin
         http://localhost:8094/actuator/scheduledtasks
         http://localhost:8094/actuator/env
         http://localhost:8094/actuator/configprops
+        
+        
+        
+TODO: 
+    - AWS 
+        - SNS
+        - SQS
+        - Dynamo Db
+        
+    - ETH blockchain
+        
+        
+                 

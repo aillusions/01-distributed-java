@@ -10,7 +10,7 @@ import java.util.UUID;
 @ToString
 @Getter
 @Setter
-@Table
+@Table("customer")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
