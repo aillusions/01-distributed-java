@@ -1,6 +1,5 @@
 package com.zalizniak.awsdynamodbdao;
 
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -40,8 +39,8 @@ public class AwsDynamodbDaoApplicationTests {
     public static class DynamoDBConfig {
 
         @Bean
-        public AmazonDynamoDB amazonDynamoDB() { // TODO why region here
-            return AmazonDynamoDBClientBuilder.standard().withRegion(Regions.EU_WEST_1).build();
+        public AmazonDynamoDB amazonDynamoDB() {
+            return AmazonDynamoDBClientBuilder.standard().build();
         }
     }
 
@@ -59,7 +58,7 @@ public class AwsDynamodbDaoApplicationTests {
         Page<User> resultPage = repository.findByLastName("Gosling", PageRequest.of(0, 100));
         List<User> result = resultPage.getContent();
 
-        Assert.assertThat(result.size(), Matchers.is(1));
+        Assert.assertThat(result.size(), Matchers.greaterThanOrEqualTo(1));
         Assert.assertThat(result, Matchers.hasItem(gosling));
         log.info("Found in table: {}", result.get(0));
     }

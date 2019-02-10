@@ -30,19 +30,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-
-        <dependency>        <!--log4j is used by aws-java-sdk-->
+        
+        <dependency> <!--log4j is used by aws-java-sdk-->
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
 
-        <dependency>         <!--log4j is used by aws-java-sdk-->
+        <dependency> <!--log4j is used by aws-java-sdk-->
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
 
-        <dependency>         <!--log4j is used by aws-java-sdk-->
+        <dependency> <!--log4j is used by aws-java-sdk-->
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>

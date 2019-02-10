@@ -29,7 +29,7 @@ public class AwsDynamodbDaoApplication {
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        return AmazonDynamoDBClientBuilder.standard().withRegion(Regions.EU_WEST_1).build();
+        return AmazonDynamoDBClientBuilder.standard().build();
     }
 
     @Bean
