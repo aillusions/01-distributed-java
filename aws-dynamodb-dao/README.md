@@ -15,7 +15,9 @@
         region = eu-west-1
         output = json
         
-        
+        [profile alex_zalizniak_com_dev]
+        region = eu-west-1
+        output = json
         
     ~/.aws/credentials
 

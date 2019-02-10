@@ -1,7 +1,6 @@
 package com.zalizniak.awsdynamodbdao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DeleteTableRequest;
@@ -14,12 +13,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,18 +27,8 @@ import java.util.List;
  */
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {PropertyPlaceholderAutoConfiguration.class, AwsDynamodbDaoApplicationTests.DynamoDBConfig.class})
+@SpringBootTest(classes = {PropertyPlaceholderAutoConfiguration.class, AmazonDynamoDBConfig.class})
 public class AwsDynamodbDaoApplicationTests {
-
-    @Configuration
-    @EnableDynamoDBRepositories(basePackageClasses = UserRepository.class)
-    public static class DynamoDBConfig {
-
-        @Bean
-        public AmazonDynamoDB amazonDynamoDB() {
-            return AmazonDynamoDBClientBuilder.standard().build();
-        }
-    }
 
     @Autowired
     private UserRepository repository;
