@@ -1,7 +1,8 @@
 
 
-Build and install locally this dependency: 
-
+#
+# Build and install locally this dependency: 
+#
     <dependency>
         <groupId>software.amazon.awssdk</groupId>
         <artifactId>dynamodb</artifactId>
@@ -16,6 +17,10 @@ mvn install
 
 
 
+#
+# Create table
+#
+
 
 
 aws dynamodb create-table \
@@ -25,3 +30,9 @@ aws dynamodb create-table \
     --key-schema AttributeName=key,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
     --profile alex_zalizniak_com_dev --endpoint-url http://localhost:8000 
+    
+    
+#
+# Read more https://github.com/awslabs/dynamodb-lock-client
+#    
+    
