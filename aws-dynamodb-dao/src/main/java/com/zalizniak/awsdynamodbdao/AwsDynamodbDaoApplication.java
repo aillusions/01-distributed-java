@@ -1,6 +1,5 @@
 package com.zalizniak.awsdynamodbdao;
 
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import lombok.extern.slf4j.Slf4j;
