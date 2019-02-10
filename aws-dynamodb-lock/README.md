@@ -33,6 +33,8 @@ aws dynamodb create-table \
     
     
 #
-# Read more https://github.com/awslabs/dynamodb-lock-client
+# Read more:
+#   https://github.com/awslabs/dynamodb-lock-client
+#   https://aws.amazon.com/blogs/database/building-distributed-locks-with-the-dynamodb-lock-client/
 #    
     
