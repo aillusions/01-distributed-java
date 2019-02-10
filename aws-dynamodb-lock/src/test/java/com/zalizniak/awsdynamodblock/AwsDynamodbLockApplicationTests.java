@@ -7,36 +7,46 @@ import com.amazonaws.services.dynamodbv2.LockItem;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.ListTablesRequest;
+import software.amazon.awssdk.services.dynamodb.model.ListTablesResponse;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * -Daws.profile=alex_zalizniak_com_dev
  */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AwsDynamodbLockApplicationTests {
 
-    @Test
-    public void contextLoads() throws IOException, InterruptedException {
+    @Autowired
+    DynamoDbClient dynamoDbClient;
 
-        // Inject client configuration to the builder like the endpoint and signing region
-        final DynamoDbClient dynamoDB = DynamoDbClient.builder()
-                .region(Region.US_EAST_1).endpointOverride(URI.create("http://localhost:8000"))
-                .build();
+    @Test
+    public void testListTables() {
+        ListTablesResponse response = dynamoDbClient.listTables(
+                ListTablesRequest.builder()
+                        .limit(5)
+                        .build());
+        response.tableNames().forEach(e -> log.info("Table: " + e));
+    }
+
+
+    @Test
+    public void testLock() throws IOException, InterruptedException {
+
         // Whether or not to create a heartbeating background thread
         final boolean createHeartbeatBackgroundThread = true;
         //build the lock client
         final AmazonDynamoDBLockClient client = new AmazonDynamoDBLockClient(
-                AmazonDynamoDBLockClientOptions.builder(dynamoDB, "lockTable")
+                AmazonDynamoDBLockClientOptions.builder(dynamoDbClient, "lockTable")
                         .withTimeUnit(TimeUnit.SECONDS)
                         .withLeaseDuration(10L)
                         .withHeartbeatPeriod(3L)
