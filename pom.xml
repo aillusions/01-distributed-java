@@ -27,6 +27,7 @@
         <module>cassandra-dao</module>
         <module>aws-dynamodb-dao</module>
         <module>aws-dynamodb-lock</module>
+        <module>spark-core-wordcount</module>
     </modules>
 
 </project>

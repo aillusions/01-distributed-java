@@ -314,6 +314,33 @@ services:
     networks:
     - dj-network
 
+  # http://localhost:8080/
+  dj-spark-master:
+    image: bde2020/spark-master:2.4.0-hadoop2.7
+    container_name: dj-spark-master-srv
+    ports:
+    - "8080:8080"
+    - "7077:7077"
+    environment:
+    - INIT_DAEMON_STEP=setup_spark
+    - "constraint:node==<yourmasternode>"
+    networks:
+    - dj-network
+
+  # http://localhost:8081/
+  dj-spark-worker-1:
+    image: bde2020/spark-worker:2.4.0-hadoop2.7
+    container_name: dj-spark-worker-1-srv
+    depends_on:
+    - dj-spark-master
+    ports:
+    - "8081:8081"
+    environment:
+    - "SPARK_MASTER=spark://dj-spark-master-srv:7077"
+    - "constraint:node==<yourmasternode>"
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network
