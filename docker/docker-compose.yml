@@ -296,9 +296,18 @@ services:
     networks:
     - dj-network
 
+  # http://localhost:8000/shell
+  #dj-dynamodb:
+  #  image: cnadiminti/dynamodb-local:latest
+  #  container_name: dj-dynamodb-srv
+  #  ports:
+  #  - 8000:8000
+  #  networks:
+  #  - dj-network
 
+  # http://localhost:8000
   dj-dynamodb:
-    image: cnadiminti/dynamodb-local:latest
+    image: instructure/dynamo-local-admin
     container_name: dj-dynamodb-srv
     ports:
     - 8000:8000

@@ -51,6 +51,9 @@ aws dynamodb describe-table --table-name myDynamoDBTable --profile alex_zaliznia
 ######################################################
 
 
+http://localhost:8000/shell
+
+
 aws dynamodb list-tables  --profile alex_zalizniak_com_dev --endpoint-url http://localhost:8000 
 
 

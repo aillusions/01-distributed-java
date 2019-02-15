@@ -66,5 +66,5 @@ TODO:
         
     - ETH blockchain
         
-        
-                 
+    - Zookeeper    
+    - Spark             
