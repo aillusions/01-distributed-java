@@ -20,7 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -145,16 +145,29 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test()
     public void shouldHandleNestedData() {
+
+        UserNote note1 = new UserNote(1L, "hello");
+        UserNote note1_1 = new UserNote(1L, "hello");
+
+        Assert.assertEquals(note1.hashCode(), note1_1.hashCode());
+        Assert.assertEquals(note1, note1_1);
+
+        UserNote note2 = new UserNote(2L, "world");
+
+        Assert.assertNotEquals(note1.hashCode(), note2.hashCode());
+        Assert.assertNotEquals(note1, note2);
+
         String id = UUID.randomUUID().toString();
 
         User newUser = new User(id, "Juergen1", "Hoeller", 60);
-        //newUser.getUserNotes().add(new UserNote(1L, "hello"));
-        //newUser.getUserNotes().add(new UserNote(2L, "world"));
+        newUser.setUserNotes(new LinkedHashSet<>());
+        newUser.getUserNotes().add(note1);
+        newUser.getUserNotes().add(note2);
         repository.save(newUser);
 
         User result = repository.findById(id).get();
 
-        Assert.assertEquals(new HashSet<>(newUser.getUserNotes()).toString(), new HashSet<>(result.getUserNotes()).toString());
+        Assert.assertEquals(newUser.getUserNotes(), result.getUserNotes());
     }
 
     @Autowired

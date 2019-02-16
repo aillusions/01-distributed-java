@@ -35,14 +35,13 @@ public class User {
     private Long version;
 
     @EqualsAndHashCode.Exclude
-    private Set<UserNote> userNotes = new HashSet<>();
+    private Set<UserNote> userNotes = null;
 
     public User(String userId, String firstName, String lastName, Integer age) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userAge = age;
-        userNotes.add(new UserNote(0L, "Default note"));
     }
 
     @DynamoDBHashKey(attributeName = "user_id")
