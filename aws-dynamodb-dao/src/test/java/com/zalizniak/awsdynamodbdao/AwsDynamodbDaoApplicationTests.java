@@ -167,6 +167,9 @@ public class AwsDynamodbDaoApplicationTests {
 
         User result = repository.findById(id).get();
 
+        // TODO why?
+        //Expected :java.util.LinkedHashSet<[UserNote(noteId=1, noteText=hello), UserNote(noteId=2, noteText=world)]>
+        //Actual   :java.util.LinkedHashSet<[UserNote(noteId=1, noteText=hello), UserNote(noteId=2, noteText=world)]>
         Assert.assertEquals(newUser.getUserNotes(), result.getUserNotes());
     }
 
