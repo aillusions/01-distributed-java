@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * -Daws.profile=alex_zalizniak_com_dev
@@ -35,10 +36,10 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test
     public void sampleTestCase() {
-        User gosling = new User("James", "Gosling");
+        User gosling = new User(UUID.randomUUID().toString(), "James", "Gosling");
         repository.save(gosling);
 
-        User hoeller = new User("Juergen", "Hoeller");
+        User hoeller = new User(UUID.randomUUID().toString(), "Juergen", "Hoeller");
         repository.save(hoeller);
 
         Page<User> resultPage = repository.findByLastName("Gosling", PageRequest.of(0, 100));
@@ -71,14 +72,14 @@ public class AwsDynamodbDaoApplicationTests {
         log.info("Table {} is active", ctr.getTableName());
     }
 
-    @After
-    public void destroy() throws Exception {
-        if (tableWasCreatedForTest) {
-            DeleteTableRequest dtr = mapper.generateDeleteTableRequest(User.class);
-            TableUtils.deleteTableIfExists(amazonDynamoDB, dtr);
-            log.info("Deleted table {}", dtr.getTableName());
-        }
-    }
+    // @After
+    // public void destroy() throws Exception {
+    //     if (tableWasCreatedForTest) {
+    //         DeleteTableRequest dtr = mapper.generateDeleteTableRequest(User.class);
+    //         TableUtils.deleteTableIfExists(amazonDynamoDB, dtr);
+    //         log.info("Deleted table {}", dtr.getTableName());
+    //     }
+    // }
 
 }
 

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * -Daws.profile=alex_zalizniak_com_dev
@@ -26,8 +27,8 @@ public class AwsDynamodbDaoApplication {
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
         return args -> {
             userRepository.saveAll(Arrays.asList(
-                    new User("kevin", "tst1"),
-                    new User("josh long", "tst2"))
+                    new User(UUID.randomUUID().toString(), "kevin", "tst1"),
+                    new User(UUID.randomUUID().toString(), "josh long", "tst2"))
             );
             userRepository.findAll()
                     .forEach(e -> log.info("Found User: " + e));
