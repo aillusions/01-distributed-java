@@ -45,16 +45,14 @@ public class AwsDynamodbDaoApplicationTests {
         User hoeller = new User(UUID.randomUUID().toString(), "Juergen", "Hoeller");
         repository.save(hoeller);
 
-        Page<User> resultPage = repository.findByLastName("Hoeller", PageRequest.of(0, 100));
+        Page<User> resultPage = repository.findByFirstName("Juergen", PageRequest.of(0, 1));
         List<User> result = resultPage.getContent();
 
-        Assert.assertThat(result.size(), Matchers.greaterThanOrEqualTo(1));
-        Assert.assertThat(result, Matchers.hasItem(hoeller));
-        log.info("Found in table: {}", result.get(0));
+        Assert.assertThat(result.size(), Matchers.equalTo(1));
     }
 
     @Test
-    public void shouldFindByPager() {
+    public void shouldFailToFindWithPagerForList() {
         User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller");
         repository.save(hoeller1);
 
@@ -64,27 +62,9 @@ public class AwsDynamodbDaoApplicationTests {
         User hoeller3 = new User(UUID.randomUUID().toString(), "Juergen3", "Hoeller");
         repository.save(hoeller3);
 
-        Page<User> resultPage = repository.findByLastName("Hoeller", PageRequest.of(0, 2));
-        List<User> result = resultPage.getContent();
-
-        Assert.assertThat(result.size(), Matchers.equalTo(2));
+        List<User> resultList = repository.findByLastName("Hoeller", PageRequest.of(0, 2));
+        Assert.assertThat(resultList.size(), Matchers.greaterThanOrEqualTo(3));
     }
-
- /*   @Test
-    public void shouldFindByPagerList() {
-        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller");
-        repository.save(hoeller1);
-
-        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller");
-        repository.save(hoeller2);
-
-        User hoeller3 = new User(UUID.randomUUID().toString(), "Juergen3", "Hoeller");
-        repository.save(hoeller3);
-
-        List<User> resultList = repository.findByLastNameList("Hoeller", PageRequest.of(0, 2));
-
-        Assert.assertThat(resultList.size(), Matchers.equalTo(2));
-    }*/
 
     @Autowired
     private AmazonDynamoDB amazonDynamoDB;

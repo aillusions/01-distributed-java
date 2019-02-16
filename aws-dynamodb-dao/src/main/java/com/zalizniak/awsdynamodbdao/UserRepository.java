@@ -13,9 +13,7 @@ import java.util.List;
 @EnableScanCount
 public interface UserRepository extends PagingAndSortingRepository<User, String> {
 
-    //List<User> findByLastNameList(String lastName, Pageable pageable);
-
-    Page<User> findByLastName(String lastName, Pageable pageable);
+    List<User> findByLastName(String lastName, Pageable pageable);
 
     Page<User> findByFirstName(String firstName, Pageable pageable);
 
