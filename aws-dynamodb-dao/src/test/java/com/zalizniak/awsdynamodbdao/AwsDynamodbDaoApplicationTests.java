@@ -2,6 +2,7 @@ package com.zalizniak.awsdynamodbdao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -62,7 +62,7 @@ public class AwsDynamodbDaoApplicationTests {
         Assert.assertThat(result.size(), Matchers.equalTo(1));
     }
 
-    @Test
+    @Test()
     public void shouldFailToFindWithPagerForList() {
         User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller");
         repository.save(hoeller1);
@@ -75,6 +75,29 @@ public class AwsDynamodbDaoApplicationTests {
 
         List<User> resultList = repository.findByLastName("Hoeller", PageRequest.of(0, 2));
         Assert.assertThat(resultList.size(), Matchers.greaterThanOrEqualTo(3));
+    }
+
+    @Test
+    public void shouldOrder() {
+
+    }
+
+
+    @Test
+    public void shouldcustomQuery() {
+
+    }
+
+    // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.OptimisticLocking.html
+    @Test(expected = ConditionalCheckFailedException.class)
+    public void shouldOptimisticallyLock() {
+        String id = UUID.randomUUID().toString();
+
+        User hoeller1 = new User(id, "Juergen1", "Hoeller");
+        repository.save(hoeller1);
+
+        User hoeller2 = new User(id, "Juergen2", "Hoeller");
+        repository.save(hoeller2);
     }
 
     @Autowired

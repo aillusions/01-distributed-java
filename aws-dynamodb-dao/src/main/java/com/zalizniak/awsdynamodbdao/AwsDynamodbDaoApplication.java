@@ -23,16 +23,16 @@ public class AwsDynamodbDaoApplication {
         SpringApplication.run(AwsDynamodbDaoApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
-        return args -> {
-            userRepository.saveAll(Arrays.asList(
-                    new User(UUID.randomUUID().toString(), "kevin", "tst1"),
-                    new User(UUID.randomUUID().toString(), "josh long", "tst2"))
-            );
-            userRepository.findAll()
-                    .forEach(e -> log.info("Found User: " + e));
-        };
-    }
+    // @Bean
+    // CommandLineRunner commandLineRunner(UserRepository userRepository) {
+    //     return args -> {
+    //         userRepository.saveAll(Arrays.asList(
+    //                 new User(UUID.randomUUID().toString(), "kevin", "tst1", 0),
+    //                 new User(UUID.randomUUID().toString(), "josh long", "tst2", 0))
+    //         );
+    //         userRepository.findAll()
+    //                 .forEach(e -> log.info("Found User: " + e));
+    //     };
+    // }
 }
 
