@@ -1,9 +1,6 @@
 package com.zalizniak.awsdynamodbdao;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBVersionAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +23,9 @@ public class User {
     private String lastName;
 
     @EqualsAndHashCode.Exclude
+    private String constantField = "const";
+
+    @EqualsAndHashCode.Exclude
     private Integer userAge;
 
     @EqualsAndHashCode.Exclude
@@ -44,16 +44,25 @@ public class User {
         return userId;
     }
 
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "dj.dynamodb.users.gsi.03")
     @DynamoDBAttribute(attributeName = "first_name")
     public String getFirstName() {
         return firstName;
     }
 
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "dj.dynamodb.users.gsi.02")
     @DynamoDBAttribute(attributeName = "last_name")
     public String getLastName() {
         return lastName;
     }
 
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "dj.dynamodb.users.gsi.01")
+    @DynamoDBAttribute(attributeName = "constant_field")
+    public String getConstantField() {
+        return constantField;
+    }
+
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "dj.dynamodb.users.gsi.01")
     @DynamoDBAttribute(attributeName = "user_age")
     public Integer getUserAge() {
         return userAge;

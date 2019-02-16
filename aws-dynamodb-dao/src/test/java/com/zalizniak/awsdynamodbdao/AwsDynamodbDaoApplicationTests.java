@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoCon
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -77,27 +78,37 @@ public class AwsDynamodbDaoApplicationTests {
         Assert.assertThat(resultList.size(), Matchers.greaterThanOrEqualTo(3));
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
+    public void shouldNotOrderAll1() {
+        repository.findAll(PageRequest.of(0, 1, Sort.by("userAge").descending()));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void shouldNotOrderAll2() {
+        repository.findAll(Sort.by("userAge").descending());
+    }
+
+    @Test()
     public void shouldOrder() {
-        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller", 30);
+        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller", 28);
         repository.save(hoeller1);
 
-        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller", 70);
+        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller", 75);
         repository.save(hoeller2);
 
         Integer prevAge = null;
-        for (User user : repository.findAll(/*Sort.by("userAge").descending()*/)) {
+        for (User user : repository.findByConstantField("const", PageRequest.of(0, 100, Sort.by("userAge").descending()))) {
 
             Integer age = user.getUserAge();
-            //if (prevAge == null) {
-            //    prevAge = age;
-            //    return;
-            //}
-
             log.info("age: " + age);
+
+            if (prevAge == null) {
+                prevAge = age;
+            } else {
+                Assert.assertTrue(prevAge >= age);
+            }
         }
     }
-
 
     @Test
     public void shouldcustomQuery() {
@@ -127,9 +138,13 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Before
     public void init() throws Exception {
+
+        ProvisionedThroughput thr = new ProvisionedThroughput(1L, 1L);
+
         CreateTableRequest ctr = mapper.generateCreateTableRequest(User.class)
                 //.withBillingMode(BillingMode.PAY_PER_REQUEST);
-                .withProvisionedThroughput(new ProvisionedThroughput(1L, 1L));
+                .withProvisionedThroughput(thr);
+        ctr.getGlobalSecondaryIndexes().forEach(v -> v.setProvisionedThroughput(thr));
 
         tableWasCreatedForTest = TableUtils.createTableIfNotExists(amazonDynamoDB, ctr);
         if (tableWasCreatedForTest) {
