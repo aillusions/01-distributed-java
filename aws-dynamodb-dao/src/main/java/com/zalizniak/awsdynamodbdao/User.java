@@ -26,12 +26,16 @@ public class User {
     private String lastName;
 
     @EqualsAndHashCode.Exclude
+    private Integer userAge;
+
+    @EqualsAndHashCode.Exclude
     private Long version;
 
-    public User(String userId, String firstName, String lastName) {
+    public User(String userId, String firstName, String lastName, Integer age) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.userAge = age;
     }
 
     @DynamoDBHashKey(attributeName = "user_id")
@@ -48,6 +52,11 @@ public class User {
     @DynamoDBAttribute(attributeName = "last_name")
     public String getLastName() {
         return lastName;
+    }
+
+    @DynamoDBAttribute(attributeName = "user_age")
+    public Integer getUserAge() {
+        return userAge;
     }
 
     // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.OptimisticLocking.html

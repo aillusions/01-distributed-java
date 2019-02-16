@@ -35,7 +35,7 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test
     public void shouldCreateUser() {
-        User newUser = new User(UUID.randomUUID().toString(), "James", "Gosling");
+        User newUser = new User(UUID.randomUUID().toString(), "James", "Gosling", 45);
         User savedUser = repository.save(newUser);
 
         Assert.assertEquals(newUser, savedUser);
@@ -43,7 +43,7 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test
     public void shouldFindById() {
-        User newUser = new User(UUID.randomUUID().toString(), "James", "Gosling");
+        User newUser = new User(UUID.randomUUID().toString(), "James", "Gosling", 40);
         repository.save(newUser);
 
         User foundUser = repository.findById(newUser.getUserId()).get();
@@ -53,7 +53,7 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test
     public void shouldFindUser() {
-        User hoeller = new User(UUID.randomUUID().toString(), "Juergen", "Hoeller");
+        User hoeller = new User(UUID.randomUUID().toString(), "Juergen", "Hoeller", 39);
         repository.save(hoeller);
 
         Page<User> resultPage = repository.findByFirstName("Juergen", PageRequest.of(0, 1));
@@ -64,13 +64,13 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test()
     public void shouldFailToFindWithPagerForList() {
-        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller");
+        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller", 14);
         repository.save(hoeller1);
 
-        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller");
+        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller", 14);
         repository.save(hoeller2);
 
-        User hoeller3 = new User(UUID.randomUUID().toString(), "Juergen3", "Hoeller");
+        User hoeller3 = new User(UUID.randomUUID().toString(), "Juergen3", "Hoeller", 14);
         repository.save(hoeller3);
 
         List<User> resultList = repository.findByLastName("Hoeller", PageRequest.of(0, 2));
@@ -79,12 +79,29 @@ public class AwsDynamodbDaoApplicationTests {
 
     @Test
     public void shouldOrder() {
+        User hoeller1 = new User(UUID.randomUUID().toString(), "Juergen1", "Hoeller", 30);
+        repository.save(hoeller1);
 
+        User hoeller2 = new User(UUID.randomUUID().toString(), "Juergen2", "Hoeller", 70);
+        repository.save(hoeller2);
+
+        Integer prevAge = null;
+        for (User user : repository.findAll(/*Sort.by("userAge").descending()*/)) {
+
+            Integer age = user.getUserAge();
+            //if (prevAge == null) {
+            //    prevAge = age;
+            //    return;
+            //}
+
+            log.info("age: " + age);
+        }
     }
 
 
     @Test
     public void shouldcustomQuery() {
+
 
     }
 
@@ -93,10 +110,10 @@ public class AwsDynamodbDaoApplicationTests {
     public void shouldOptimisticallyLock() {
         String id = UUID.randomUUID().toString();
 
-        User hoeller1 = new User(id, "Juergen1", "Hoeller");
+        User hoeller1 = new User(id, "Juergen1", "Hoeller", 60);
         repository.save(hoeller1);
 
-        User hoeller2 = new User(id, "Juergen2", "Hoeller");
+        User hoeller2 = new User(id, "Juergen2", "Hoeller", 70);
         repository.save(hoeller2);
     }
 
