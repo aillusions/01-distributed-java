@@ -78,6 +78,11 @@ public class AwsDynamodbDaoApplicationTests {
         Assert.assertThat(resultList.size(), Matchers.greaterThanOrEqualTo(3));
     }
 
+    @Test()
+    public void shouldAllowScan() {
+        repository.findByUserAge(60, PageRequest.of(0, 2));
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void shouldNotOrderAll1() {
         repository.findAll(PageRequest.of(0, 1, Sort.by("userAge").descending()));
@@ -111,9 +116,18 @@ public class AwsDynamodbDaoApplicationTests {
     }
 
     @Test
-    public void shouldcustomQuery() {
+    public void shouldGetDataByProjection() {
 
+        String id = UUID.randomUUID().toString();
 
+        User hoeller1 = new User(id, "Juergen1", "Hoeller", 60);
+        repository.save(hoeller1);
+
+        List<User> result = repository.findByUserId(id);
+
+        log.info("Found projection: " + result);
+
+        Assert.assertEquals(1, result.size());
     }
 
     // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.OptimisticLocking.html
