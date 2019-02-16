@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -140,6 +141,20 @@ public class AwsDynamodbDaoApplicationTests {
 
         User hoeller2 = new User(id, "Juergen2", "Hoeller", 70);
         repository.save(hoeller2);
+    }
+
+    @Test()
+    public void shouldHandleNestedData() {
+        String id = UUID.randomUUID().toString();
+
+        User newUser = new User(id, "Juergen1", "Hoeller", 60);
+        //newUser.getUserNotes().add(new UserNote(1L, "hello"));
+        //newUser.getUserNotes().add(new UserNote(2L, "world"));
+        repository.save(newUser);
+
+        User result = repository.findById(id).get();
+
+        Assert.assertEquals(new HashSet<>(newUser.getUserNotes()).toString(), new HashSet<>(result.getUserNotes()).toString());
     }
 
     @Autowired
