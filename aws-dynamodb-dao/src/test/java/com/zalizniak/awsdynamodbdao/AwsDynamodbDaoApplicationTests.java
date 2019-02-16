@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -38,6 +39,16 @@ public class AwsDynamodbDaoApplicationTests {
         User savedUser = repository.save(newUser);
 
         Assert.assertEquals(newUser, savedUser);
+    }
+
+    @Test
+    public void shouldFindById() {
+        User newUser = new User(UUID.randomUUID().toString(), "James", "Gosling");
+        repository.save(newUser);
+
+        User foundUser = repository.findById(newUser.getUserId()).get();
+
+        Assert.assertEquals(newUser, foundUser);
     }
 
     @Test
