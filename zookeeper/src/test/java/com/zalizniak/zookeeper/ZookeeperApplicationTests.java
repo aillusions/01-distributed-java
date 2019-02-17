@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ZookeeperApplicationTests {
 
+    // Create: /configuration/DJ-Zookeeper/custom-dj-config-property
     @Value("${custom-dj-config-property}")
     private String property;
 
