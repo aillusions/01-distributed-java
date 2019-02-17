@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -22,6 +23,8 @@ public class JavaAsyncApplicationTests {
     @Test
     public void contextLoads0() throws ExecutionException, InterruptedException {
 
+        log.info("contextLoads0() running in thread: " + Thread.currentThread().getName());
+
         CompletableFuture<String> say1 = asyncConf.sayHello();
         CompletableFuture<String> say2 = asyncConf.sayHello();
 
@@ -32,17 +35,27 @@ public class JavaAsyncApplicationTests {
     }
 
     @Test
-    public void contextLoads1() {
+    public void contextLoads1() throws InterruptedException {
 
-        CompletableFuture<String> say1 = asyncConf.sayHello().thenApplyAsync(s -> {
+        log.info("contextLoads1() running in thread: " + Thread.currentThread().getName());
+
+        CountDownLatch thenApplyAsyncstartedLatch = new CountDownLatch(1);
+
+        asyncConf.sayHello().thenApplyAsync(s -> {
+            log.info("thenApplyAsync() running in thread: " + Thread.currentThread().getName());
+            thenApplyAsyncstartedLatch.countDown();
+
+            // Thread will be terminated - and message should not appear in log
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             log.info("say1: " + s);
             return s;
         });
-    }
 
+        thenApplyAsyncstartedLatch.await();
+    }
 }
