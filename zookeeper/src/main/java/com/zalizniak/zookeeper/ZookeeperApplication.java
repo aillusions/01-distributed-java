@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableConfigurationProperties(AppFromZooKeeperConfigProps.class)
+@EnableConfigurationProperties(AppFromZooKeeperProps.class)
 public class ZookeeperApplication {
 
     public static void main(String[] args) {
@@ -26,12 +26,12 @@ public class ZookeeperApplication {
     private AppFromZooKeeperConfig appFromZooKeeperConfig;
 
     @Autowired
-    private AppFromZooKeeperConfigProps appFromZooKeeperConfigProps;
+    private AppFromZooKeeperProps appFromZooKeeperProps;
 
     @Scheduled(fixedDelay = 1_000)
     public void run() {
-        log.info("property: " + appFromZooKeeperConfig.getProperty());
-        log.info("property props: " + appFromZooKeeperConfigProps.getProperty());
+        log.info("conf: " + appFromZooKeeperConfig.getProperty());
+        log.info("props: " + appFromZooKeeperProps.getProperty());
     }
 }
 

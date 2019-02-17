@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "custom.dj.config")
-public class AppFromZooKeeperConfigProps {
+public class AppFromZooKeeperProps {
 
     private String property;
 }

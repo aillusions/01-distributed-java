@@ -16,10 +16,15 @@ public class ZookeeperApplicationTests {
     @Autowired
     private AppFromZooKeeperConfig appFromZooKeeperConfig;
 
+    @Autowired
+    private AppFromZooKeeperProps appFromZooKeeperProps;
+
     @Test
     public void contextLoads() {
         log.info("custom-dj-config-property: " + appFromZooKeeperConfig.getProperty());
+
         Assert.assertEquals("Hello World", appFromZooKeeperConfig.getProperty());
+        Assert.assertEquals("Hello World", appFromZooKeeperProps.getProperty());
     }
 }
 
