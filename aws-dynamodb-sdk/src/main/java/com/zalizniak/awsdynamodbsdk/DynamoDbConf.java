@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +17,13 @@ public class DynamoDbConf {
 
     public static final String tableName = "Movies";
 
+    @Value("${amazon.dynamodb.endpoint}")
+    private String amazonDynamoDBEndpoint;
+
+    @Value("${amazon.dynamodb.region}")
+    private String amazonDynamoDBRegion;
+
+
     @Bean()
     @Resource(name = "amazonDynamoDB")
     public DynamoDB dynamoDB(AmazonDynamoDB amazonDynamoDB) {
@@ -26,7 +34,7 @@ public class DynamoDbConf {
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "eu-west-1"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(amazonDynamoDBEndpoint, amazonDynamoDBRegion))
                 .build();
 
         return client;

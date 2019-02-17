@@ -1,9 +1,8 @@
 package com.zalizniak.awsdynamodbsdk;
 
 import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.*;
+import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
@@ -16,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Slf4j
@@ -29,7 +29,7 @@ public class AwsDynamodbSdkApplicationTests {
     public static final String TITLE = "The Big New Movie";
 
     @Test
-    public void shouldCreareItem() {
+    public void shouldCreateItem() {
 
         Table table = dynamoDB.getTable(DynamoDbConf.tableName);
 
@@ -77,9 +77,9 @@ public class AwsDynamodbSdkApplicationTests {
                 .withUpdateExpression("set info.rating = info.rating + :val")
                 .withValueMap(new ValueMap().withNumber(":val", 1)).withReturnValues(ReturnValue.UPDATED_NEW);
 
-        System.out.println("Incrementing an atomic counter...");
+        log.info("Incrementing an atomic counter...");
         UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
-        System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+        log.info("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
     }
 
     @Test(expected = ConditionalCheckFailedException.class)
@@ -91,9 +91,9 @@ public class AwsDynamodbSdkApplicationTests {
                 .withConditionExpression("size(info.actors) > :num").withValueMap(new ValueMap().withNumber(":num", 3))
                 .withReturnValues(ReturnValue.UPDATED_NEW);
 
-        System.out.println("Attempting a conditional update...");
+        log.info("Attempting a conditional update...");
         UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
-        System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+        log.info("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
     }
 
     @Test()
@@ -103,8 +103,74 @@ public class AwsDynamodbSdkApplicationTests {
         DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
                 .withPrimaryKey(new PrimaryKey("year", 2015, "title", "The Big New Movie"));
 
-        System.out.println("Attempting a conditional delete...");
+        log.info("Attempting a conditional delete...");
         table.deleteItem(deleteItemSpec);
-        System.out.println("DeleteItem succeeded");
+        log.info("DeleteItem succeeded");
+    }
+
+    @Test()
+    public void shouldQuery() {
+        Table table = dynamoDB.getTable(DynamoDbConf.tableName);
+
+        HashMap<String, String> nameMap = new HashMap<String, String>();
+        nameMap.put("#yr", "year");
+
+        HashMap<String, Object> valueMap = new HashMap<String, Object>();
+        valueMap.put(":yyyy", 1985);
+
+        QuerySpec querySpec = new QuerySpec().withKeyConditionExpression("#yr = :yyyy").withNameMap(nameMap)
+                .withValueMap(valueMap);
+
+        ItemCollection<QueryOutcome> items = null;
+        Iterator<Item> iterator = null;
+        Item item = null;
+
+        try {
+            log.info("Movies from 1985");
+            items = table.query(querySpec);
+
+            iterator = items.iterator();
+            while (iterator.hasNext()) {
+                item = iterator.next();
+                log.info(item.getNumber("year") + ": " + item.getString("title"));
+            }
+        } catch (Exception e) {
+            System.err.println("Unable to query movies from 1985");
+            System.err.println(e.getMessage());
+        }
+
+        valueMap.put(":yyyy", 1992);
+        valueMap.put(":letter1", "A");
+        valueMap.put(":letter2", "L");
+
+        querySpec.withProjectionExpression("#yr, title, info.genres, info.actors[0]")
+                .withKeyConditionExpression("#yr = :yyyy and title between :letter1 and :letter2").withNameMap(nameMap)
+                .withValueMap(valueMap);
+
+        log.info("Movies from 1992 - titles A-L, with genres and lead actor");
+        items = table.query(querySpec);
+
+        iterator = items.iterator();
+        while (iterator.hasNext()) {
+            item = iterator.next();
+            log.info(item.getNumber("year") + ": " + item.getString("title") + " " + item.getMap("info"));
+        }
+    }
+
+    @Test()
+    public void shouldScan() {
+        Table table = dynamoDB.getTable(DynamoDbConf.tableName);
+
+        ScanSpec scanSpec = new ScanSpec().withProjectionExpression("#yr, title, info.rating")
+                .withFilterExpression("#yr between :start_yr and :end_yr").withNameMap(new NameMap().with("#yr", "year"))
+                .withValueMap(new ValueMap().withNumber(":start_yr", 1950).withNumber(":end_yr", 1959));
+
+        ItemCollection<ScanOutcome> items = table.scan(scanSpec);
+
+        Iterator<Item> iter = items.iterator();
+        while (iter.hasNext()) {
+            Item item = iter.next();
+            log.info(item.toString());
+        }
     }
 }
