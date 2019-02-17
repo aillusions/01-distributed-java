@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Iterator;
 
+@Slf4j
 @Configuration
 @SpringBootApplication
 public class AwsDynamodbSdkApplication {
@@ -47,16 +49,9 @@ public class AwsDynamodbSdkApplication {
                 int year = currentNode.path("year").asInt();
                 String title = currentNode.path("title").asText();
 
-                try {
-                    table.putItem(new Item().withPrimaryKey("year", year, "title", title).withJSON("info",
-                            currentNode.path("info").toString()));
-                    System.out.println("PutItem succeeded: " + year + " " + title);
-
-                } catch (Exception e) {
-                    System.err.println("Unable to add movie: " + year + " " + title);
-                    System.err.println(e.getMessage());
-                    break;
-                }
+                table.putItem(new Item().withPrimaryKey("year", year, "title", title).withJSON("info",
+                        currentNode.path("info").toString()));
+                log.info("PutItem succeeded: " + year + " " + title);
             }
             parser.close();
         };
@@ -66,23 +61,16 @@ public class AwsDynamodbSdkApplication {
     @Resource(name = "dynamoDB")
     CommandLineRunner commandLineRunner1(DynamoDB dynamoDB) {
         return args -> {
-            String tableName = "Movies";
 
-            try {
-                System.out.println("Attempting to create table; please wait...");
-                Table table = dynamoDB.createTable(tableName,
-                        Arrays.asList(new KeySchemaElement("year", KeyType.HASH), // Partition
-                                new KeySchemaElement("title", KeyType.RANGE)), // Sort key
-                        Arrays.asList(new AttributeDefinition("year", ScalarAttributeType.N),
-                                new AttributeDefinition("title", ScalarAttributeType.S)),
-                        new ProvisionedThroughput(10L, 10L));
-                table.waitForActive();
-                System.out.println("Success.  Table status: " + table.getDescription().getTableStatus());
-
-            } catch (Exception e) {
-                System.err.println("Unable to create table: ");
-                System.err.println(e.getMessage());
-            }
+            log.info("Attempting to create table; please wait...");
+            Table table = dynamoDB.createTable(DynamoDbConf.tableName,
+                    Arrays.asList(new KeySchemaElement("year", KeyType.HASH), // Partition
+                            new KeySchemaElement("title", KeyType.RANGE)), // Sort key
+                    Arrays.asList(new AttributeDefinition("year", ScalarAttributeType.N),
+                            new AttributeDefinition("title", ScalarAttributeType.S)),
+                    new ProvisionedThroughput(10L, 10L));
+            table.waitForActive();
+            log.info("Success.  Table status: " + table.getDescription().getTableStatus());
         };
     }
 }
