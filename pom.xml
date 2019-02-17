@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>java-async</module>
         <module>kafka</module>
         <module>postgres</module>
         <module>redis-collections-spring-data</module>
