@@ -4,9 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,33 +15,23 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableConfigurationProperties(AppFromZooKeeperConfigProps.class)
 public class ZookeeperApplication {
-
-    @Autowired
-    private AppFromZooKeeperConfig appFromZooKeeperConfig;
 
     public static void main(String[] args) {
         SpringApplication.run(ZookeeperApplication.class, args);
     }
 
     @Autowired
-    private ZookeeperServiceRegistry serviceRegistry;
+    private AppFromZooKeeperConfig appFromZooKeeperConfig;
 
     @Autowired
-    private DiscoveryClient discoveryClient;
+    private AppFromZooKeeperConfigProps appFromZooKeeperConfigProps;
 
-    @Scheduled(fixedDelay = 5_000)
+    @Scheduled(fixedDelay = 1_000)
     public void run() {
         log.info("property: " + appFromZooKeeperConfig.getProperty());
-        //List<ServiceInstance> list = discoveryClient.getInstances("DJ-Zookeeper");
-        //list.forEach(s -> log.info("Service instance: " + s.toString()));
+        log.info("property props: " + appFromZooKeeperConfigProps.getProperty());
     }
-
-    /*@Bean
-    CommandLineRunner commandLineRunner() {
-        return args -> {
-
-        };
-    }*/
 }
 
