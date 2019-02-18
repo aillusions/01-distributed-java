@@ -4,12 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.zookeeper.ZookeeperProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.integration.annotation.Poller;
 import org.springframework.integration.annotation.Role;
+import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.leader.Context;
+import org.springframework.integration.leader.event.OnGrantedEvent;
+import org.springframework.integration.leader.event.OnRevokedEvent;
 import org.springframework.integration.zookeeper.config.LeaderInitiatorFactoryBean;
+import org.springframework.messaging.PollableChannel;
 
 import java.util.function.Supplier;
 
@@ -32,47 +39,39 @@ public class ZookeeperElectionConfig {
      * Create: /siTest/COORDINATOR_LEADER_ROLE
      */
     @Bean
-    public LeaderInitiatorFactoryBean leaderInitiator(CuratorFramework client) {
-        return new LeaderInitiatorFactoryBean()
+    public LeaderInitiatorFactoryBean leaderInitiator(CuratorFramework client, ApplicationEventPublisher eventPublisher) {
+
+        LeaderInitiatorFactoryBean rv = new LeaderInitiatorFactoryBean()
                 .setClient(client)
                 .setPath("/siTest/")
                 .setRole(COORDINATOR_LEADER_ROLE);
+
+        rv.setApplicationEventPublisher(eventPublisher);
+
+        return rv;
     }
 
-    /*@Bean
+    @Bean
     @InboundChannelAdapter(channel = "stringsChannel", autoStartup = "false", poller = @Poller(fixedDelay = "100"))
     @Role(COORDINATOR_LEADER_ROLE)
     public Supplier<String> inboundChannelAdapter() {
         return () -> COORDINATOR_LEADER_ROLE;
-    }*/
-  /*  @Slf4j
-    @Component("coordinatorLeaderCandidate")
-    public static class CoordinatorLeaderCandidate extends DefaultCandidate {
+    }
 
-        public CoordinatorLeaderCandidate() {
-            super(UUID.randomUUID().toString(), COORDINATOR_LEADER_ROLE);
-        }
+    @Bean
+    public PollableChannel stringsChannel() {
+        return new QueueChannel();
+    }
 
-        @Getter
-        private volatile boolean leader;
+    @EventListener(OnGrantedEvent.class)
+    public synchronized void start(OnGrantedEvent evt) {
+        Context ctx = evt.getContext();
+        log.info("Leader election: onGranted for role: " + ctx.getRole());
+    }
 
-        @Autowired
-        private ApplicationEventPublisher eventPublisher;
-
-        @Override
-        public void onGranted(Context ctx) {
-            super.onGranted(ctx);
-            leader = true;
-            log.info("Leader election: onGranted for role: " + ctx.getRole());
-            eventPublisher.publishEvent(new LeaderElectionEvent(this, leader));
-        }
-
-        @Override
-        public void onRevoked(Context ctx) {
-            super.onRevoked(ctx);
-            leader = false;
-            eventPublisher.publishEvent(new LeaderElectionEvent(this, leader));
-            log.info("Leader election: onRevoked for role: " + ctx.getRole());
-        }
-    }*/
+    @EventListener(OnRevokedEvent.class)
+    public synchronized void stop(OnRevokedEvent evt) {
+        Context ctx = evt.getContext();
+        log.info("Leader election: onRevoked for role: " + ctx.getRole());
+    }
 }
