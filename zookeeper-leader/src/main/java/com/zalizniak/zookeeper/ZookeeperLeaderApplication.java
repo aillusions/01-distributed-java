@@ -15,7 +15,6 @@ import java.util.concurrent.CountDownLatch;
 @EnableScheduling
 @Configuration
 @SpringBootApplication
-
 public class ZookeeperLeaderApplication {
 
     @Bean
