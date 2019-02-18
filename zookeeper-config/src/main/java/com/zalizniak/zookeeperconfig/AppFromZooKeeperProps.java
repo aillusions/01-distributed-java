@@ -1,4 +1,4 @@
-package com.zalizniak.zookeeper;
+package com.zalizniak.zookeeperconfig;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

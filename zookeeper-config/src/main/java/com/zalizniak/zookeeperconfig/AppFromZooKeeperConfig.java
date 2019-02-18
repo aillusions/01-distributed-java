@@ -1,4 +1,4 @@
-package com.zalizniak.zookeeper;
+package com.zalizniak.zookeeperconfig;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
