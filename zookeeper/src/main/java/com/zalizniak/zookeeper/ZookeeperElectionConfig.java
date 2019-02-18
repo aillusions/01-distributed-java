@@ -40,12 +40,12 @@ public class ZookeeperElectionConfig {
                 .setRole(COORDINATOR_LEADER_ROLE);
     }
 
-    @Bean
+  /*  @Bean
     @InboundChannelAdapter(channel = "stringsChannel", autoStartup = "false", poller = @Poller(fixedDelay = "100"))
     @Role(COORDINATOR_LEADER_ROLE)
     public Supplier<String> inboundChannelAdapter() {
         return () -> COORDINATOR_LEADER_ROLE;
-    }
+    }*/
   /*  @Slf4j
     @Component("coordinatorLeaderCandidate")
     public static class CoordinatorLeaderCandidate extends DefaultCandidate {

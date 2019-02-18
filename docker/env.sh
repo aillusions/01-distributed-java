@@ -5,5 +5,7 @@ docker-compose down
 #docker-compose up dj-cassandra
 
 #docker-compose up dj-dynamodb
-docker-compose up dj-spark-master dj-spark-worker-1
+#docker-compose up dj-spark-master dj-spark-worker-1
+
+docker-compose up dj-zoo-exhibitor dj-zoo-nav-web dj-zoo-nav-api
 
