@@ -68,3 +68,5 @@ TODO:
         
     - Zookeeper    
     - Spark             
+    - Splunk
+    - Elastic Search    
