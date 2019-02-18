@@ -3,7 +3,6 @@ package com.zalizniak.zookeeper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.zookeeper.ZookeeperProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +39,7 @@ public class ZookeeperElectionConfig {
                 .setRole(COORDINATOR_LEADER_ROLE);
     }
 
-  /*  @Bean
+    /*@Bean
     @InboundChannelAdapter(channel = "stringsChannel", autoStartup = "false", poller = @Poller(fixedDelay = "100"))
     @Role(COORDINATOR_LEADER_ROLE)
     public Supplier<String> inboundChannelAdapter() {
