@@ -30,6 +30,8 @@
         <module>aws-dynamodb-lock</module>
         <module>aws-dynamodb-sdk</module>
         <module>spark-core-wordcount</module>
+        <module>zookeeper-config</module>
+        <module>zookeeper-discover</module>
     </modules>
 
 </project>
