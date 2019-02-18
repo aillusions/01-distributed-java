@@ -8,6 +8,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+/**
+ * - Run ZookeeperConfigApplication
+ * - Go to /configuration/DJ-Zookeeper/custom.dj.config.property
+ * - Edit value
+ * - Check logs for ZookeeperConfigApplication
+ */
 @Slf4j
 @EnableScheduling
 @SpringBootApplication
