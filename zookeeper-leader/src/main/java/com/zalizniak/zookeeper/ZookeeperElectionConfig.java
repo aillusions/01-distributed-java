@@ -31,6 +31,9 @@ public class ZookeeperElectionConfig {
     @Autowired
     private CountDownLatch leaderElectedLatch;
 
+    @Autowired
+    private CuratorFramework client;
+
     /**
      * See: ZookeeperAutoConfiguration
      * See: /siTest/COORDINATOR_LEADER_ROLE
@@ -68,6 +71,19 @@ public class ZookeeperElectionConfig {
         log.info("#  Leader election: onGranted for role: " + ctx.getRole());
         log.info("#");
         log.info("####################################");
+
+
+        try {
+            log.info("/siTest/COORDINATOR_LEADER_ROLE: " + new String(client.getData().forPath("/siTest/COORDINATOR_LEADER_ROLE"), "UTF-8"));
+        } catch (Exception e) {
+            log.error("Unable to get /siTest/COORDINATOR_LEADER_ROLE", e);
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         leaderElectedLatch.countDown();
     }
 
