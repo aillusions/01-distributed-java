@@ -2,8 +2,8 @@ package com.zalizniak.zookeeper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.cloud.zookeeper.ZookeeperProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,7 @@ import org.springframework.integration.leader.event.OnRevokedEvent;
 import org.springframework.integration.zookeeper.config.LeaderInitiatorFactoryBean;
 import org.springframework.messaging.PollableChannel;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -27,16 +28,12 @@ public class ZookeeperElectionConfig {
 
     public static final String COORDINATOR_LEADER_ROLE = "COORDINATOR_LEADER_ROLE";
 
-    @Bean
-    public ZookeeperProperties zookeeperProperties() {
-        ZookeeperProperties zkp = new ZookeeperProperties();
-        zkp.setConnectString("localhost:2181");
-        return zkp;
-    }
+    @Autowired
+    private CountDownLatch leaderElectedLatch;
 
     /**
-     * See ZookeeperAutoConfiguration
-     * Create: /siTest/COORDINATOR_LEADER_ROLE
+     * See: ZookeeperAutoConfiguration
+     * See: /siTest/COORDINATOR_LEADER_ROLE
      */
     @Bean
     public LeaderInitiatorFactoryBean leaderInitiator(CuratorFramework client, ApplicationEventPublisher eventPublisher) {
@@ -66,7 +63,12 @@ public class ZookeeperElectionConfig {
     @EventListener(OnGrantedEvent.class)
     public synchronized void start(OnGrantedEvent evt) {
         Context ctx = evt.getContext();
-        log.info("Leader election: onGranted for role: " + ctx.getRole());
+        log.info("####################################");
+        log.info("#");
+        log.info("#  Leader election: onGranted for role: " + ctx.getRole());
+        log.info("#");
+        log.info("####################################");
+        leaderElectedLatch.countDown();
     }
 
     @EventListener(OnRevokedEvent.class)
