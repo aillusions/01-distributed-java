@@ -2,6 +2,7 @@ package com.zalizniak.grpcexceptions;
 
 
 import io.grpc.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,6 +13,7 @@ import java.util.Set;
 /**
  * Created by rayt on 6/24/17.
  */
+@Slf4j
 public class CustomInterceptor implements ServerInterceptor {
     // Only Throwable classes listed here will be processed by the interceptor.
     // The interceptor will copy the cause's message & stacktrace into Status' description.
@@ -31,7 +33,7 @@ public class CustomInterceptor implements ServerInterceptor {
 
             @Override
             public void close(Status status, Metadata trailers) {
-                System.out.println("Interceptor: " + (status.getCause() == null ? "null" : status.getCause().getClass().getName()));
+                log.info("Interceptor: " + (status.getCause() == null ? "null" : status.getCause().getClass().getName()));
                 if (status.getCode() == Status.Code.UNKNOWN
                         && status.getDescription() == null
                         && status.getCause() != null

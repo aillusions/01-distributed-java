@@ -36,6 +36,7 @@
         <module>grpc-communication</module>
         <module>grpc-exceptions</module>
         <module>grpc-auth</module>
+        <module>grpc-stream</module>
     </modules>
 
 </project>
