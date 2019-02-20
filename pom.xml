@@ -34,6 +34,8 @@
         <module>zookeeper-discover</module>
         <module>zookeeper-lock</module>
         <module>grpc-communication</module>
+        <module>grpc-exceptions</module>
+        <module>grpc-auth</module>
     </modules>
 
 </project>
