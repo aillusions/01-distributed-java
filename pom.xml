@@ -33,6 +33,7 @@
         <module>zookeeper-config</module>
         <module>zookeeper-discover</module>
         <module>zookeeper-lock</module>
+        <module>grpc-communication</module>
     </modules>
 
 </project>
