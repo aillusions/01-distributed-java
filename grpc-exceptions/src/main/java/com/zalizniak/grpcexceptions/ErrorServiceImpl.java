@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * Created by rayt on 6/24/17.
  */
 @Slf4j
-@GRpcService(interceptors = {CustomInterceptor.class})
+@GRpcService(/*interceptors = {CustomInterceptor.class}*/)
 public class ErrorServiceImpl extends ErrorServiceGrpc.ErrorServiceImplBase {
 
     private static final Logger logger = Logger.getLogger(ErrorServiceImpl.class.getName());
