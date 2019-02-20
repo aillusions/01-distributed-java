@@ -37,7 +37,7 @@ public class GrpcClient {
                 .setLastName(lastName)
                 .build());
 
-        log.info("Response received from server:\n" + helloResponse);
+        log.debug("Response received from server: " + helloResponse);
 
         //channel.shutdown();
 
