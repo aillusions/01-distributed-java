@@ -1,0 +1,24 @@
+
+// 1. syntax, package, option
+syntax = "proto3";
+
+package com.zalizniak.grpcexceptions.error;
+
+option java_multiple_files = true;
+
+message EchoRequest {
+    string message = 1;
+}
+
+message EchoResponse {
+    string message = 1;
+}
+
+service ErrorService {
+    rpc notImplemented(EchoRequest) returns (EchoResponse);
+    rpc customUnwrapException(EchoRequest) returns (EchoResponse);
+    rpc customException(EchoRequest) returns (EchoResponse);
+    rpc uncaughtExceptions(EchoRequest) returns (EchoResponse);
+    rpc deadlineExceeded(EchoRequest) returns (EchoResponse);
+    rpc automaticallyWrappedException(EchoRequest) returns (EchoResponse);
+}
