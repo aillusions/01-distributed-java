@@ -23,6 +23,10 @@ public class GrpcCommunicationApplicationTests {
 
     @Test
     public void testPerformance() {
+
+        // warm up
+        helloWorldClient.sayHello("John", "Doe");
+
         int requests = 1000;
         long start = System.currentTimeMillis();
         for (int i = 0; i < requests; i++) {
