@@ -3,9 +3,6 @@ package com.zaliznaik.grpccommunication;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.baeldung.grpc.HelloRequest;
-import org.baeldung.grpc.HelloResponse;
-import org.baeldung.grpc.HelloServiceGrpc;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

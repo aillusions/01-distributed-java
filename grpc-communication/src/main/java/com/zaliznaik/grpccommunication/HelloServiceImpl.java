@@ -2,9 +2,7 @@ package com.zaliznaik.grpccommunication;
 
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.baeldung.grpc.HelloRequest;
-import org.baeldung.grpc.HelloResponse;
-import org.baeldung.grpc.HelloServiceGrpc;
+
 import org.lognet.springboot.grpc.GRpcService;
 
 @Slf4j
