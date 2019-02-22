@@ -37,6 +37,7 @@
         <module>grpc-exceptions</module>
         <module>grpc-auth</module>
         <module>grpc-stream</module>
+        <module>grpc-nodejs</module>
     </modules>
 
 </project>
