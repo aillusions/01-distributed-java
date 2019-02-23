@@ -70,3 +70,9 @@ TODO:
     - Spark             
     - Splunk
     - Elastic Search    
+    
+    
+    
+    
+mvn org.xolstice.maven.plugins:protobuf-maven-plugin:0.6.1:compile
+mvn org.xolstice.maven.plugins:protobuf-maven-plugin:0.6.1:compile-custom
