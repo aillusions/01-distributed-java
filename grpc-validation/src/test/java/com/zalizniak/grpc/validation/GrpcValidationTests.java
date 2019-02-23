@@ -21,21 +21,4 @@ public class GrpcValidationTests {
         Assert.assertEquals("Hello, John Doe", helloWorldClient.sayHello("John", "Doe"));
     }
 
-    @Test
-    public void testPerformance() {
-
-        // warm up
-        helloWorldClient.sayHello("John", "Doe");
-
-        int requests = 1000;
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < requests; i++) {
-            helloWorldClient.sayHello("John", "Doe");
-        }
-
-        long spent = System.currentTimeMillis() - start;
-        log.info("");
-        log.info("Sent " + requests + " requests in: " + spent + " ms");
-        log.info("At speed: " + ((double) spent / (double) requests) + " req / sec.");
-    }
 }

@@ -32,10 +32,12 @@ public class GrpcClient {
 
     public String sayHello(String firstName, String lastName) {
 
-        HelloResponse helloResponse = serviceBlockingStub.hello(HelloRequest.newBuilder()
+        HelloRequest request = HelloRequest.newBuilder()
                 .setFirstName(firstName)
                 .setLastName(lastName)
-                .build());
+                .build();
+
+        HelloResponse helloResponse = serviceBlockingStub.hello(request);
 
         log.debug("Response received from server: " + helloResponse);
 
