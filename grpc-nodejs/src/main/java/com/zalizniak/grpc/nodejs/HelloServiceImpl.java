@@ -1,8 +1,7 @@
-package com.zaliznaik.grpccommunication;
+package com.zalizniak.grpc.nodejs;
 
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-
 import org.lognet.springboot.grpc.GRpcService;
 
 @Slf4j
@@ -25,5 +24,7 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+
+        log.info("HelloRequest arrived: " + request.getFirstName() + " " + request.getLastName());
     }
 }
