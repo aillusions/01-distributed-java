@@ -8,12 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.lognet.springboot.grpc.GRpcService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Slf4j
 @GRpcService
 public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
     @Override
-    public void hello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+    public void hello(@NotNull @Valid HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 
         String greeting = new StringBuilder()
                 .append("Hello, ")
