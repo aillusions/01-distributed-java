@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,10 +19,7 @@ import java.util.UUID;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedisDataApplicationTests {
-
-    @Resource(name = "redisTemplate")
-    private ListOperations<String, String> listOps;
+public class RedisSetTests {
 
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOps;
@@ -32,14 +28,12 @@ public class RedisDataApplicationTests {
     RedisTemplate<String, String> redisTemplate;
 
     @Test
-    public void testList() {
+    public void testSetExpiration() {
         String key = UUID.randomUUID().toString();
         String value = UUID.randomUUID().toString();
-
-        Assert.assertEquals(0, (long) listOps.size(key));
-        Assert.assertEquals(1, (long) listOps.leftPush(key, value));
-        Assert.assertEquals(2, (long) listOps.rightPush(key, value));
-        Assert.assertEquals(2, (long) listOps.size(key));
+        Assert.assertEquals(1, (long) setOps.add(key, value));
+        Date date = java.util.Date.from(LocalDateTime.now().plusSeconds(60).atZone(ZoneId.systemDefault()).toInstant());
+        redisTemplate.expireAt(key, date);
     }
 
     @Test
@@ -51,15 +45,6 @@ public class RedisDataApplicationTests {
         Assert.assertEquals(1, (long) setOps.add(key, value));
         Assert.assertEquals(0, (long) setOps.add(key, value));
         Assert.assertEquals(1, (long) setOps.size(key));
-    }
-
-    @Test
-    public void testSetExpiration() {
-        String key = UUID.randomUUID().toString();
-        String value = UUID.randomUUID().toString();
-        Assert.assertEquals(1, (long) setOps.add(key, value));
-        Date date = java.util.Date.from(LocalDateTime.now().plusSeconds(60).atZone(ZoneId.systemDefault()).toInstant());
-        redisTemplate.expireAt(key, date);
     }
 }
 

@@ -20,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedisPerformanceApplicationTests {
+public class RedisPerformanceTests {
 
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOps;
