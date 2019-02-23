@@ -1,5 +1,8 @@
-package com.zaliznaik.grpccommunication;
+package com.zalizniak.grpc.validation;
 
+import com.zalizniak.grpccommunication.HelloRequest;
+import com.zalizniak.grpccommunication.HelloResponse;
+import com.zalizniak.grpccommunication.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 

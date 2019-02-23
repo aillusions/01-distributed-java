@@ -1,4 +1,4 @@
-package com.zaliznaik.javaasync;
+package com.zalizniak.javaasync;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

@@ -38,6 +38,7 @@
         <module>grpc-auth</module>
         <module>grpc-stream</module>
         <module>grpc-nodejs</module>
+        <module>grpc-validation</module>
     </modules>
 
 </project>

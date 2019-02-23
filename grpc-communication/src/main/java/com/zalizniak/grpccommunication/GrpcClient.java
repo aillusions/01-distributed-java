@@ -1,4 +1,4 @@
-package com.zaliznaik.grpccommunication;
+package com.zalizniak.grpccommunication;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -24,12 +24,12 @@ public class GrpcClient {
                 .usePlaintext()
                 .build();
 
-        serviceBlockingStub = HelloServiceGrpc.newBlockingStub(channel);
+        serviceBlockingStub = com.zalizniak.grpccommunication.HelloServiceGrpc.newBlockingStub(channel);
     }
 
     public String sayHello(String firstName, String lastName) {
 
-        HelloResponse helloResponse = serviceBlockingStub.hello(HelloRequest.newBuilder()
+        com.zalizniak.grpccommunication.HelloResponse helloResponse = serviceBlockingStub.hello(HelloRequest.newBuilder()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .build());

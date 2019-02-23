@@ -1,4 +1,4 @@
-package com.zaliznaik.grpccommunication;
+package com.zalizniak.grpccommunication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
