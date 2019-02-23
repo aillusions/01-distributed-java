@@ -32,12 +32,12 @@ public class RedisPerformanceTests {
     public void testSetExpiration() {
         String key = "2019_b01";
 
-        for (int i = 0; i < 3_000_000; i++) {
+        for (int i = 0; i < 3_000L; i++) {
             String value = UUID.randomUUID().toString();
             setOps.add(key, value);
         }
 
-        Assert.assertEquals(3_000_000L, (long) setOps.size(key));
+        Assert.assertEquals(3_000L, (long) setOps.size(key));
 
         Date date = Date.from(LocalDateTime.now().plusSeconds(60).atZone(ZoneId.systemDefault()).toInstant());
         redisTemplate.expireAt(key, date);
