@@ -268,6 +268,7 @@ services:
 
   # https://github.com/datastax/docker-images
   # http://localhost:9091/
+  # Configure: dj-datastax-dse-srv : 9042
   dj-datastax-studio:
     image: datastax/dse-studio
     container_name: dj-datastax-studio-srv
@@ -283,20 +284,19 @@ services:
   #    entrypoint: cqlsh cassandra
   #    volumes:
   #    - ./cassandra/schema.cql:/schema.cql
-
   #  docker exec -it dj-cassandra-srv cqlsh
-  dj-cassandra:
-    image: cassandra:3.11.3
-    container_name: dj-cassandra-srv
-    environment:
-      MYSQL_ROOT_PASSWORD: qwerty
-      MYSQL_DATABASE: dj-db
-    volumes:
-    - dj_cassandra_data:/var/lib/cassandra
-    ports:
-    - 9042:9042
-    networks:
-    - dj-network
+  # dj-cassandra:
+  #   image: cassandra:3.11.3
+  #   container_name: dj-cassandra-srv
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: qwerty
+  #     MYSQL_DATABASE: dj-db
+  #   volumes:
+  #   - dj_cassandra_data:/var/lib/cassandra
+  #   ports:
+  #   - 9042:9042
+  #   networks:
+  #   - dj-network
 
   # http://localhost:54321/flow/index.html
   #dj-h2o-3-ai:
