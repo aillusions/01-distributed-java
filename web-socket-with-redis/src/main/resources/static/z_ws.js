@@ -15,7 +15,7 @@ function Z_WS(wsEndpointUri) {
             console.log("stompClient connected.");
             stompClient.subscribe('/topic/messages', function (chatMessage) {
                 var JSON_ = JSON.parse(chatMessage.body);
-                renderPoint(JSON_["objectPointXY"]["x"], JSON_["objectPointXY"]["y"]);
+                renderPoint(JSON_["requestedX"], JSON_["requestedY"]);
                 playAudio(JSON_["song"]);
                 //console.log("song: " + JSON_["song"]);
             });

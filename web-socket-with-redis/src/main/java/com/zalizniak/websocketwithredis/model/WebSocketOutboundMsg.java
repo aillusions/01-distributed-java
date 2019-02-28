@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessageDto {
+public class WebSocketOutboundMsg {
 
-    private ObjectPointXY objectPointXY;
+    private long requestedX;
+    private long requestedY;
     private String song;
 }
