@@ -1,7 +1,7 @@
 package com.zalizniak.websocketwithredis.config;
 
 
-import com.zalizniak.websocketwithredis.RedisMessageReceiver;
+import com.zalizniak.websocketwithredis.RedisMessageReceiverSender;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +28,10 @@ public class RedisConfig {
     }
 
     @Bean("chatMessageListenerAdapter")
-    MessageListenerAdapter chatMessageListenerAdapter(RedisMessageReceiver redisMessageReceiver) {
-        return new MessageListenerAdapter(redisMessageReceiver, "receiveChatMessage");
+    MessageListenerAdapter chatMessageListenerAdapter(RedisMessageReceiverSender redisMessageReceiverSender) {
+        return new MessageListenerAdapter(
+                redisMessageReceiverSender,
+                "onRedisMsgReceived");
     }
 
     @Bean

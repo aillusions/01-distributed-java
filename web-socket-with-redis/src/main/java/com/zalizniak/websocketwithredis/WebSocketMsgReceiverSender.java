@@ -2,15 +2,12 @@ package com.zalizniak.websocketwithredis;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zalizniak.websocketwithredis.config.ApplicationProperties;
-import com.zalizniak.websocketwithredis.config.RedisConfig;
 import com.zalizniak.websocketwithredis.model.ChatMessageDto;
 import com.zalizniak.websocketwithredis.model.ObjectPointXY;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -24,28 +21,21 @@ import java.io.ByteArrayOutputStream;
 public class WebSocketMsgReceiverSender {
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
-    @Autowired
     private ApplicationProperties applicationProperties;
 
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private RedisMessageReceiverSender redisMessageReceiverSender;
+
     @MessageMapping("/message")
     public void onWsMessageReceived(ObjectPointXY objectPointXY) throws JsonProcessingException {
-
         log.info("Received WebSocket Message : {}", objectPointXY);
-
-        ChatMessageDto chatMessageDto = new ChatMessageDto(objectPointXY, null);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String chatString = objectMapper.writeValueAsString(chatMessageDto);
-
-        // Publish Message to Redis Channels
-        stringRedisTemplate.convertAndSend(RedisConfig.REDIS_MESSAGING_CHANNEL, chatString);
+        redisMessageReceiverSender.doSendRedisMessage(objectPointXY);
     }
 
-    @Async
+    //@Async
     public void doSendWsMessage(ChatMessageDto message) {
         log.info("In message: " + message.getObjectPointXY().x + " - " + message.getObjectPointXY().y);
         log.info("Sending " + (encodedAudio.length() / 1024) + " KB of data.");
