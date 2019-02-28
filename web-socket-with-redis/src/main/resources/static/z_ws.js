@@ -6,6 +6,7 @@
 function Z_WS(wsEndpointUri) {
 
     var stompClient;
+    var counter = 0;
 
     function connectZws() {
         var socket = new SockJS(wsEndpointUri);
@@ -16,7 +17,11 @@ function Z_WS(wsEndpointUri) {
             stompClient.subscribe('/topic/messages', function (chatMessage) {
                 var JSON_ = JSON.parse(chatMessage.body);
                 renderPoint(JSON_["requestedX"], JSON_["requestedY"]);
-                playAudio(JSON_["song"]);
+                if (JSON_["song"]) {
+                    playAudio(JSON_["song"]);
+                }
+                counter++;
+                console.log("counter: " + counter);
                 //console.log("song: " + JSON_["song"]);
             });
         }, function (message) {
@@ -53,7 +58,6 @@ function Z_WS(wsEndpointUri) {
     return {
         sendMessage: sendMessage
     }
-
 }
 
 function playAudio(base64string) {

@@ -11,5 +11,5 @@ public class WebSocketOutboundMsg {
 
     private long requestedX;
     private long requestedY;
-    private String song;
+    private String song = "";
 }

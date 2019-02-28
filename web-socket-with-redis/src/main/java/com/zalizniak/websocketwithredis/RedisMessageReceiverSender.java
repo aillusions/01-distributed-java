@@ -32,7 +32,7 @@ public class RedisMessageReceiverSender {
         WebSocketOutboundMsg outboundMsg = new WebSocketOutboundMsg();
         outboundMsg.setRequestedX(redisMessage.getTransmittedX());
         outboundMsg.setRequestedY(redisMessage.getTransmittedY());
-        outboundMsg.setSong(encodedAudio);
+        //outboundMsg.setSong(encodedAudio);
 
         webSocketMsgReceiverSender.doSendWsMessage(outboundMsg);
     }

@@ -27,13 +27,13 @@ public class WebSocketMsgReceiverSender {
 
     @MessageMapping("/message")
     public void onWsMessageReceived(WebSocketInboundMsg webSocketInboundMsg) throws JsonProcessingException {
-        log.info("Received WebSocket Message : {}", webSocketInboundMsg);
+        log.debug("Received WebSocket Message : {}", webSocketInboundMsg);
         redisMessageReceiverSender.doSendRedisMessage(new RedisMessage(webSocketInboundMsg.getX(), webSocketInboundMsg.getY()));
     }
 
     public void doSendWsMessage(WebSocketOutboundMsg message) {
         long sizeKb = message.getSong().length() / 1024;
-        log.info("Sending: " + sizeKb + " KB of data for x: " + message.getRequestedX() + " y: " + message.getRequestedY());
+        log.debug("Sending: " + sizeKb + " KB of data for x: " + message.getRequestedX() + " y: " + message.getRequestedY());
         template.convertAndSend(applicationProperties.getTopic().getMessage(), message);
     }
 }
