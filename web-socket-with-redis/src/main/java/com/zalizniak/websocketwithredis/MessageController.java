@@ -1,10 +1,10 @@
-package com.zalizniak.websocketwithredis.controller;
+package com.zalizniak.websocketwithredis;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zalizniak.websocketwithredis.Dto.ObjectPointXY;
 import com.zalizniak.websocketwithredis.model.ChatMessageDto;
+import com.zalizniak.websocketwithredis.model.ObjectPointXY;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;

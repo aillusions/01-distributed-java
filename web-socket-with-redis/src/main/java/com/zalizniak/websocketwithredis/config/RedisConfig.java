@@ -1,8 +1,7 @@
 package com.zalizniak.websocketwithredis.config;
 
 
-import com.zalizniak.websocketwithredis.listener.RedisReceiver;
-import com.zalizniak.websocketwithredis.service.WebSocketMessageService;
+import com.zalizniak.websocketwithredis.WebSocketMessageService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

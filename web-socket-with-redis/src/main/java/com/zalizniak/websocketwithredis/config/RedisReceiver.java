@@ -1,8 +1,8 @@
-package com.zalizniak.websocketwithredis.listener;
+package com.zalizniak.websocketwithredis.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zalizniak.websocketwithredis.model.ChatMessageDto;
-import com.zalizniak.websocketwithredis.service.WebSocketMessageService;
+import com.zalizniak.websocketwithredis.WebSocketMessageService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
