@@ -31,9 +31,9 @@ public class WebSocketMsgReceiverSender {
         redisMessageReceiverSender.doSendRedisMessage(new RedisMessage(webSocketInboundMsg.getX(), webSocketInboundMsg.getY()));
     }
 
-    //@Async
     public void doSendWsMessage(WebSocketOutboundMsg message) {
-        log.info("Sending: " + message.getRequestedX() + " - " + message.getRequestedY() + " and " + +(message.getSong().length() / 1024) + " KB of data.");
+        long sizeKb = message.getSong().length() / 1024;
+        log.info("Sending: " + sizeKb + " KB of data for x: " + message.getRequestedX() + " y: " + message.getRequestedY());
         template.convertAndSend(applicationProperties.getTopic().getMessage(), message);
     }
 }
