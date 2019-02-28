@@ -15,6 +15,7 @@ function Z_WS(wsEndpointUri) {
         stompClient.connect({}, function (frame) {
             console.log("stompClient connected.");
             stompClient.subscribe('/topic/messages', function (chatMessage) {
+
                 var JSON_ = JSON.parse(chatMessage.body);
                 renderPoint(JSON_["requestedX"], JSON_["requestedY"]);
                 if (JSON_["song"]) {
@@ -60,15 +61,34 @@ function Z_WS(wsEndpointUri) {
     }
 }
 
+var player;
+var playRequestedButNotYetPlaying = false;
+
 function playAudio(base64string) {
-    var player = document.getElementById('audioPlayerId');
+
+    if (playRequestedButNotYetPlaying) {
+        return;
+    }
+
+    if (!player) {
+        player = document.getElementById('audioPlayerId');
+    }
+
     var blob = base64toBlob(base64string, "wav");
     var blobUrl = URL.createObjectURL(blob);
 
     player.src = blobUrl;
     player.volume = 0.8;
 
-    player.play();
+    playRequestedButNotYetPlaying = true;
+    var promise = player.play();
+    promise.then(function () {
+        console.info('playing..');
+        playRequestedButNotYetPlaying = false;
+    }, function (reason) {
+        console.error(reason);
+    })
+
 }
 
 function base64toBlob(base64Data, contentType) {
