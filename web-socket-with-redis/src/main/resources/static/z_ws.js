@@ -11,7 +11,7 @@ function Z_WS(wsEndpointUri) {
     function connectZws() {
         var socket = new SockJS(wsEndpointUri);
         stompClient = Stomp.over(socket);
-
+        stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log("stompClient connected.");
             stompClient.subscribe('/topic/messages', function (chatMessage) {

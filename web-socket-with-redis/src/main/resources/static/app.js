@@ -23,7 +23,7 @@ $(function () {
         var x = evt.pageX - FIELD_CONTAINER.offset().left;
         var y = evt.pageY - FIELD_CONTAINER.offset().top;
 
-        console.log("x:" + x + " y:" + y);
+        console.log("x:" + Math.round(x) + " y:" + Math.round(y));
 
         if (!SELECT_ON_MOVE) {
             return;
