@@ -356,6 +356,17 @@ services:
     networks:
     - dj-network
 
+  # http://localhost:9000
+  # admin / admin
+  dj-sonarqube:
+    image: sonarqube
+    container_name: dj-sonarqube-srv
+    ports:
+    - 9000:9000
+    - 9092:9092
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network

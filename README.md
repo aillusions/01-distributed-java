@@ -71,6 +71,7 @@ TODO:
     - Splunk
     - Elastic Search    
     - web socket
+    - sonar
     
     
     

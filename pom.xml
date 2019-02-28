@@ -39,6 +39,7 @@
         <module>grpc-stream</module>
         <module>grpc-nodejs</module>
         <module>grpc-validation</module>
+        <module>sonar-code-quality</module>
     </modules>
 
 </project>
