@@ -84,7 +84,9 @@ function playAudio(base64string) {
     var promise = player.play();
     promise.then(function () {
         console.info('playing..');
-        playRequestedButNotYetPlaying = false;
+        setTimeout(function () {
+            playRequestedButNotYetPlaying = false;
+        }, 200);
     }, function (reason) {
         console.error(reason);
     })

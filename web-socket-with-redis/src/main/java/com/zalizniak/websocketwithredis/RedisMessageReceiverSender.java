@@ -38,7 +38,7 @@ public class RedisMessageReceiverSender {
         outboundMsg.setRequestedX(redisMessage.getTransmittedX());
         outboundMsg.setRequestedY(redisMessage.getTransmittedY());
 
-        int fileName = random.nextInt(10 - 1 + 1) + 1;
+        int fileName = random.nextInt(10);
         outboundMsg.setSong(encodedAudio.get(fileName));
 
         webSocketMsgReceiverSender.doSendWsMessage(outboundMsg);
