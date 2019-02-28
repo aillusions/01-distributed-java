@@ -1,7 +1,7 @@
 /**
  *
  */
-var djWsApp = angular.module('djWebsocketFrontApp', ['pascalprecht.translate']);
+var djWsApp = angular.module('djWebsocketFrontApp', []);
 
 /**
  *
