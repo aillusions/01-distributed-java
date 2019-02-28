@@ -5,6 +5,7 @@ import com.zalizniak.websocketwithredis.config.ApplicationProperties;
 import com.zalizniak.websocketwithredis.model.ChatMessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class RedisMessageReceiver {
         this.webSocketMessageService = webSocketMessageService;
     }
 
-    // Invoked when message is publish to "chat" channel
+    // Invoked when message is publish to "dj-ws-messaging-channel" channel
     public void receiveChatMessage(String message) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ChatMessageDto chatMessageDto = objectMapper.readValue(message, ChatMessageDto.class);
@@ -35,14 +36,15 @@ public class RedisMessageReceiver {
     @Service
     public static class WebSocketMessageService {
 
-        private final ApplicationProperties applicationProperties;
-        private final SimpMessagingTemplate template;
+        @Autowired
+        private ApplicationProperties applicationProperties;
+
+        @Autowired
+        private SimpMessagingTemplate template;
 
         private final String encodedAudio;
 
-        public WebSocketMessageService(ApplicationProperties applicationProperties, SimpMessagingTemplate template) {
-            this.applicationProperties = applicationProperties;
-            this.template = template;
+        public WebSocketMessageService() {
 
             try {
 
@@ -72,7 +74,5 @@ public class RedisMessageReceiver {
             message.setSong(encodedAudio);
             template.convertAndSend(applicationProperties.getTopic().getMessage(), message);
         }
-
     }
-
 }

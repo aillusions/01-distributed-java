@@ -15,13 +15,15 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Configuration
 public class RedisConfig {
 
+    public static final String REDIS_MESSAGING_CHANNEL = "dj-ws-messaging-channel";
+
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
                                             @Qualifier("chatMessageListenerAdapter") MessageListenerAdapter chatMessageListenerAdapter) {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(chatMessageListenerAdapter, new PatternTopic("chat"));
+        container.addMessageListener(chatMessageListenerAdapter, new PatternTopic(RedisConfig.REDIS_MESSAGING_CHANNEL));
         return container;
     }
 
