@@ -1,0 +1,39 @@
+<html>
+<style>
+	.selected {
+		width: 1px;
+		height: 1px;
+		background-color: darkred;
+		position: absolute;
+	}
+
+	.center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.scheet {
+		background-color: antiquewhite;
+		cursor: pointer;
+	}
+</style>
+<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script src="/z_ws.js"></script>
+<script src="/app.js"></script>
+<script>
+
+</script>
+<body style="margin:0px; background-color:#000000b3">
+<div style="height:500px; width:1000px" id="field_container" oncontextmenu="return false;" class="center scheet">
+</div>
+<div>
+    <audio id="audioPlayerId" autobuffer controls autoplay loop>
+        <source src="" />
+    </audio>
+</div>
+</body>
+</html>
