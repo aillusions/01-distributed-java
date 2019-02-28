@@ -1,23 +1,23 @@
 <html>
 <style>
-	.selected {
-		width: 1px;
-		height: 1px;
-		background-color: darkred;
-		position: absolute;
-	}
+    .selected {
+        width: 1px;
+        height: 1px;
+        background-color: darkred;
+        position: absolute;
+    }
 
-	.center {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
+    .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
-	.scheet {
-		background-color: antiquewhite;
-		cursor: pointer;
-	}
+    .scheet {
+        background-color: antiquewhite;
+        cursor: pointer;
+    }
 </style>
 <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
@@ -31,8 +31,8 @@
 <div style="height:500px; width:1000px" id="field_container" oncontextmenu="return false;" class="center scheet">
 </div>
 <div>
-    <audio id="audioPlayerId" autobuffer controls autoplay loop>
-        <source src="" />
+    <audio id="audioPlayerId" autobuffer controls autoplay loop style="height: 25px;">
+        <source src=""/>
     </audio>
 </div>
 </body>

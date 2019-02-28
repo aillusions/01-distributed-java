@@ -17,7 +17,7 @@ function Z_WS(wsEndpointUri) {
                 var JSON_ = JSON.parse(chatMessage.body);
                 renderPoint(JSON_["objectPointXY"]["x"], JSON_["objectPointXY"]["y"]);
                 playAudio(JSON_["song"]);
-                console.log("song: " + JSON_["song"]);
+                //console.log("song: " + JSON_["song"]);
             });
         }, function (message) {
             disconnect();
@@ -62,8 +62,9 @@ function playAudio(base64string) {
     var blobUrl = URL.createObjectURL(blob);
 
     player.src = blobUrl;
+    player.volume = 0.8;
+
     player.play();
-    player.volume=0.8;
 }
 
 function base64toBlob(base64Data, contentType) {

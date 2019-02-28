@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatMessageDto {
 
-	private ObjectPointXY objectPointXY;
-	private String hostname;
-	private String song;
+    private ObjectPointXY objectPointXY;
+    private String song;
 }

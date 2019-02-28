@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ObjectPointXY {
-	public long x;
-	public long y;
+    public long x;
+    public long y;
 }

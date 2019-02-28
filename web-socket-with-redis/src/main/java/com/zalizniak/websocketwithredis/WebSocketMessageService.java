@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 
 @Slf4j
@@ -48,8 +47,9 @@ public class WebSocketMessageService {
     }
 
     @Async
-    public void sendChatMessage(ChatMessageDto message) throws IOException {
-        log.info("message: " + message.getObjectPointXY().x + " - " + message.getObjectPointXY().y);
+    public void sendChatMessage(ChatMessageDto message) {
+        log.info("In message: " + message.getObjectPointXY().x + " - " + message.getObjectPointXY().y);
+        log.info("Sending " + (encodedAudio.length() / 1024) + " KB of data.");
         message.setSong(encodedAudio);
         template.convertAndSend(applicationProperties.getTopic().getMessage(), message);
     }

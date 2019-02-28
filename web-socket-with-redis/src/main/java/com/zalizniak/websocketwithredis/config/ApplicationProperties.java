@@ -8,11 +8,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 public class ApplicationProperties {
 
-	private final Topic topic = new Topic();
+    private final Topic topic = new Topic();
 
-	@Getter
-	@Setter
-	public static class Topic {
-		private String message;
-	}
+    @Getter
+    @Setter
+    public static class Topic {
+        private String message;
+    }
 }
