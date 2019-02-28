@@ -40,6 +40,7 @@
         <module>grpc-nodejs</module>
         <module>grpc-validation</module>
         <module>sonar-code-quality</module>
+        <module>web-socket-with-redis</module>
     </modules>
 
 </project>
