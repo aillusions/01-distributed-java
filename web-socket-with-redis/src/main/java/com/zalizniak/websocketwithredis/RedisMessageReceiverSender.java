@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Service
@@ -25,6 +28,8 @@ public class RedisMessageReceiverSender {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private final Random random = new Random();
+
     public void onRedisMsgReceived(String redisMessageStr) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         RedisMessage redisMessage = objectMapper.readValue(redisMessageStr, RedisMessage.class);
@@ -32,7 +37,9 @@ public class RedisMessageReceiverSender {
         WebSocketOutboundMsg outboundMsg = new WebSocketOutboundMsg();
         outboundMsg.setRequestedX(redisMessage.getTransmittedX());
         outboundMsg.setRequestedY(redisMessage.getTransmittedY());
-        outboundMsg.setSong(encodedAudio);
+
+        int fileName = random.nextInt(10 - 1 + 1) + 1;
+        outboundMsg.setSong(encodedAudio.get(fileName));
 
         webSocketMsgReceiverSender.doSendWsMessage(outboundMsg);
     }
@@ -43,28 +50,30 @@ public class RedisMessageReceiverSender {
         stringRedisTemplate.convertAndSend(RedisConfig.REDIS_MESSAGING_CHANNEL, chatString);
     }
 
-    private final static String encodedAudio;
+    private final static List<String> encodedAudio = new ArrayList<>();
 
     static {
+        for (int i = 1; i <= 10; i++) {
 
-        try {
+            try {
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            BufferedInputStream in = new BufferedInputStream(WebSocketMsgReceiverSender
-                    .class
-                    .getClassLoader()
-                    .getResourceAsStream("NU_DISCO.mp3"));
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                BufferedInputStream in = new BufferedInputStream(WebSocketMsgReceiverSender
+                        .class
+                        .getClassLoader()
+                        .getResourceAsStream(i + ".mp3"));
 
-            int read;
-            byte[] buff = new byte[1024];
-            while ((read = in.read(buff)) > 0) {
-                out.write(buff, 0, read);
+                int read;
+                byte[] buff = new byte[1024];
+                while ((read = in.read(buff)) > 0) {
+                    out.write(buff, 0, read);
+                }
+                out.flush();
+                byte[] audioBytes = out.toByteArray();
+                encodedAudio.add(Base64.encodeBase64String(audioBytes));
+            } catch (Exception e) {
+                throw new RuntimeException("Unable to read song file.", e);
             }
-            out.flush();
-            byte[] audioBytes = out.toByteArray();
-            encodedAudio = Base64.encodeBase64String(audioBytes);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to read song file.", e);
         }
     }
 }
