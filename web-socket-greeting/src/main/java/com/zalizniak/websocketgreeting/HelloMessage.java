@@ -1,4 +1,4 @@
-package com.zalizniak.websocketwithredis;
+package com.zalizniak.websocketgreeting;
 
 import lombok.Data;
 

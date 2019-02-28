@@ -1,4 +1,4 @@
-package com.zalizniak.websocketwithredis;
+package com.zalizniak.websocketgreeting;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
