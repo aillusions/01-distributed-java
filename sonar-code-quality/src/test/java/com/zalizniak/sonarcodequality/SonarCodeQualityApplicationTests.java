@@ -1,7 +1,9 @@
 package com.zalizniak.sonarcodequality;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -9,8 +11,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SonarCodeQualityApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Autowired
+    private String someBean;
+
+    @Test
+    public void contextLoads() {
+        Assert.assertNull(someBean);
+    }
 
 }
