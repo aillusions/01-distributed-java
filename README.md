@@ -66,10 +66,11 @@ TODO:
         
     - ETH blockchain
         
-    - Zookeeper    
+    - Eureka    
     - Spark             
     - Splunk
     - Elastic Search    
+    - web socket
     
     
     

@@ -50,12 +50,12 @@ services:
   # http://localhost:82
   # pgadmin4@pgadmin.org / admin
   dj-pgadmin:
-    image: fenglc/pgadmin4
+    image: dpage/pgadmin4
     container_name: dj-pgadmin-srv
     volumes:
     - dj_pgadmin_data:/var/lib/pgadmin
     ports:
-    - 82:5050
+    - 82:80
     networks:
     - dj-network
 
