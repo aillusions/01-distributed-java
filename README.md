@@ -72,7 +72,9 @@ TODO:
     - Elastic Search    
     - web socket
     - sonar
-    - 
+    - hbase
+    - consistency - availability - partitioning tolerance tradeof 
+    - mongodb
     
     
     
