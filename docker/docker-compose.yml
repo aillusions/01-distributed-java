@@ -370,24 +370,38 @@ services:
   dj-storm-nimbus:
     image: storm:1.2.2
     container_name: dj-storm-nimbus-srv
+    command: storm nimbus
     depends_on:
-    - dj-zoo
+      - dj-zoo
     links:
-    - dj-zoo
+      - dj-zoo:zookeeper
     ports:
-    - 6627:6627
+      - 6627:6627
     networks:
-    - dj-network
+      - dj-network
 
   dj-storm-supervisor:
     image: storm:1.2.2
     container_name: dj-storm-supervisor-srv
+    command: storm supervisor
     depends_on:
-    - dj-storm-nimbus
-    - dj-zoo
+      - dj-storm-nimbus
+      - dj-zoo
     links:
-    - dj-storm-nimbus
-    - dj-zoo
+      - dj-storm-nimbus:nimbus
+      - dj-zoo:zookeeper
+    networks:
+    - dj-network
+
+  # http://localhost:8080/
+  dj-storm-ui:
+    image: storm:1.2.2
+    container_name: dj-storm-ui-srv
+    command: storm ui
+    links:
+    - dj-storm-nimbus:nimbus
+    ports:
+    - 8080:8080
     networks:
     - dj-network
 

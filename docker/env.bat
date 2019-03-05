@@ -1,5 +1,5 @@
 docker-compose down
-docker-compose pull
+@REM docker-compose pull
 @REM docker-compose build
 
 @REM docker-compose up dj-redis dj-redis-commander
@@ -8,6 +8,4 @@ docker-compose pull
 @REM docker-compose up dj-datastax-dse dj-datastax-studio
 @REM docker-compose up dj-dynamodb
 @REM docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api
-docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api dj-storm-nimbus dj-storm-supervisor
-
-
+docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api dj-storm-nimbus dj-storm-supervisor dj-storm-ui
