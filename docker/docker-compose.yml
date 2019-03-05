@@ -367,6 +367,30 @@ services:
     networks:
     - dj-network
 
+  dj-storm-nimbus:
+    image: storm:1.2.2
+    container_name: dj-storm-nimbus-srv
+    depends_on:
+    - dj-zoo
+    links:
+    - dj-zoo
+    ports:
+    - 6627:6627
+    networks:
+    - dj-network
+
+  dj-storm-supervisor:
+    image: storm:1.2.2
+    container_name: dj-storm-supervisor-srv
+    depends_on:
+    - dj-storm-nimbus
+    - dj-zoo
+    links:
+    - dj-storm-nimbus
+    - dj-zoo
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network

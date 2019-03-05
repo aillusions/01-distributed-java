@@ -41,6 +41,7 @@
         <module>sonar-code-quality</module>
         <module>web-socket-with-redis</module>
         <module>web-socket-greeting</module>
+        <module>storm</module>
     </modules>
 
 </project>

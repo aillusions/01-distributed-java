@@ -75,6 +75,8 @@ TODO:
     - hbase
     - consistency - availability - partitioning tolerance tradeof 
     - mongodb
+    - apache storm
+    - java lambda on aws
     
     
     
