@@ -370,6 +370,7 @@ services:
   dj-storm-nimbus:
     image: storm:1.2.2
     container_name: dj-storm-nimbus-srv
+    hostname: dj-storm-nimbus-srv
     command: storm nimbus
     depends_on:
       - dj-zoo
@@ -383,6 +384,7 @@ services:
   dj-storm-supervisor:
     image: storm:1.2.2
     container_name: dj-storm-supervisor-srv
+    hostname: dj-storm-supervisor-srv
     command: storm supervisor
     depends_on:
       - dj-storm-nimbus
@@ -394,9 +396,11 @@ services:
     - dj-network
 
   # http://localhost:8080/
+  # https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/storm-topologies/content/using_the_storm_ui.html
   dj-storm-ui:
     image: storm:1.2.2
     container_name: dj-storm-ui-srv
+    hostname: dj-storm-ui-srv
     command: storm ui
     links:
     - dj-storm-nimbus:nimbus
