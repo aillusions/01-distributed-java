@@ -409,6 +409,20 @@ services:
     networks:
     - dj-network
 
+  #  http://localhost:8000
+  # admin / qwerty_123
+  dj-splunk:
+    image: splunk/splunk:latest
+    container_name: dj-splunk-srv
+    hostname: dj-splunk-srv
+    environment:
+      SPLUNK_PASSWORD: qwerty_123
+      SPLUNK_START_ARGS: "--accept-license"
+    ports:
+    - 8000:8000
+    networks:
+    - dj-network
+
 networks:
   dj-network:
     name: dj-network

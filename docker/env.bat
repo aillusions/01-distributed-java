@@ -8,4 +8,5 @@ docker-compose down
 @REM docker-compose up dj-datastax-dse dj-datastax-studio
 @REM docker-compose up dj-dynamodb
 @REM docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api
-docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api dj-storm-nimbus dj-storm-supervisor dj-storm-ui
+@REM docker-compose up dj-zoo dj-zoo-nav-web dj-zoo-nav-api dj-storm-nimbus dj-storm-supervisor dj-storm-ui
+docker-compose up dj-splunk
