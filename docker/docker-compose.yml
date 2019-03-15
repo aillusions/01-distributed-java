@@ -409,7 +409,8 @@ services:
     networks:
     - dj-network
 
-  #  http://localhost:8000
+  # http://localhost:8088/services/collector/event/1.0
+  # http://localhost:8000/en-US/manager/launcher/http-eventcollector
   # admin / qwerty_123
   dj-splunk:
     image: splunk/splunk:latest
@@ -419,9 +420,31 @@ services:
       SPLUNK_PASSWORD: qwerty_123
       SPLUNK_START_ARGS: "--accept-license"
     volumes:
-    - "./:/opt/splunk/etc/apps/my_app"
+    - dj_splunk_etc:/opt/splunk/etc
+    - dj_splunk_var:/opt/splunk/var
+    #volumes:
+    #- "./:/opt/splunk/etc/apps/my_app"
     ports:
     - 8000:8000
+    - 8088:8088
+    networks:
+    - dj-network
+
+  # docker-compose up dj-splunk-logger
+  dj-splunk-logger:
+    image: alpine:3.7
+    container_name: dj-splunk-logger-srv
+    hostname: dj-splunk-logger-srv
+    entrypoint: ping google.com
+    depends_on:
+    - dj-splunk
+    logging:
+      driver: splunk
+      options:
+        splunk-url: "http://localhost:8088"
+        splunk-token: "6b4901dd-fe4a-4d37-b38f-b4662f8d0847"
+        splunk-insecureskipverify: "true"
+        splunk-format: "json"
     networks:
     - dj-network
 
@@ -442,3 +465,7 @@ volumes:
     name: dj_redis_data
   dj_mysql_data:
     name: dj_mysql_data
+  dj_splunk_etc:
+    name: dj_splunk_etc
+  dj_splunk_var:
+    name: dj_splunk_var
