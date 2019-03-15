@@ -418,6 +418,8 @@ services:
     environment:
       SPLUNK_PASSWORD: qwerty_123
       SPLUNK_START_ARGS: "--accept-license"
+    volumes:
+    - "./:/opt/splunk/etc/apps/my_app"
     ports:
     - 8000:8000
     networks:

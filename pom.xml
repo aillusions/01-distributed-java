@@ -42,6 +42,7 @@
         <module>web-socket-with-redis</module>
         <module>web-socket-greeting</module>
         <module>storm</module>
+        <module>splunk-feed</module>
     </modules>
 
 </project>
