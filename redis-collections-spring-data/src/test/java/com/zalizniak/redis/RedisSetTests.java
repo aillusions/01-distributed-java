@@ -25,7 +25,7 @@ public class RedisSetTests {
     private SetOperations<String, String> setOps;
 
     @Autowired
-    RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Test
     public void testSetExpiration() {

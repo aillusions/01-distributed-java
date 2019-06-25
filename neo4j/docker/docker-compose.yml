@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  # http://localhost:7474/browser/
+  dj-neo4j:
+    image: neo4j:3.5.3
+    container_name: dj-neo4j-srv
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/logs:/logs
+      - ./neo4j/import:/var/lib/neo4j/import
+      - ./neo4j/plugins:/plugins
+    ports:
+      - 7474:7474
+      - 7473:7473
+      - 7687:7687
+    networks:
+      - dj-network
+    environment:
+      NEO4J_AUTH: "neo4j/test"
+
+networks:
+  dj-network:
+    name: dj-network
