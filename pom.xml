@@ -43,6 +43,7 @@
         <module>web-socket-greeting</module>
         <module>storm</module>
         <module>splunk-feed</module>
+        <module>neo4j</module>
     </modules>
 
 </project>

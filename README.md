@@ -77,6 +77,9 @@ TODO:
     - mongodb
     - apache storm
     - java lambda on aws
+    - neo4j 
+    - ontotext graphdb
+    - tensor flow - docker / GPU?
     
     
     
