@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+
+  dj-mongo:
+    image: mongo:3.4.21
+    container_name: dj-mongo-srv
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - dj-network
+
+  # http://localhost:8081
+  dj-mongo-express:
+    image: mongo-express:0.49.0
+    container_name: dj-mongo-express-srv
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - dj-mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: dj-mongo-srv
+    networks:
+      - dj-network
+
+networks:
+  dj-network:
+    name: dj-network
