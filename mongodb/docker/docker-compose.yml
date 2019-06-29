@@ -6,9 +6,13 @@ services:
     image: mongo:3.4.21
     container_name: dj-mongo-srv
     restart: always
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - dj_mongo_data:/data/db
     networks:
       - dj-network
 
@@ -31,3 +35,8 @@ services:
 networks:
   dj-network:
     name: dj-network
+
+
+volumes:
+  dj_mongo_data:
+    name: dj_mongo_data
