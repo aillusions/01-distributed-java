@@ -44,6 +44,7 @@
         <module>storm</module>
         <module>splunk-feed</module>
         <module>neo4j</module>
+        <module>hyperledger-fabric</module>
     </modules>
 
 </project>
