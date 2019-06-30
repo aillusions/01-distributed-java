@@ -6,21 +6,25 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.MalformedURLException;
+import java.util.List;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CouchDbApplicationTests {
 
-    @Test
-    public void contextLoads() throws MalformedURLException {
+    private CouchDbConnector db;
 
+    @Before
+    public void setUp() throws MalformedURLException {
         HttpClient httpClient = new StdHttpClient.Builder()
                 .url("http://localhost:5984")
                 .username("admin")
@@ -29,8 +33,12 @@ public class CouchDbApplicationTests {
 
         CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
 
-        CouchDbConnector db = dbInstance.createConnector("baseball", true);
+        db = dbInstance.createConnector("baseball", true);
         db.createDatabaseIfNotExists();
+    }
+
+    @Test
+    public void basic() {
 
         Sofa sofa = new Sofa();
         String uuid = UUID.randomUUID().toString();
@@ -39,10 +47,33 @@ public class CouchDbApplicationTests {
 
         db.create(sofa);
 
+        TestCase.assertEquals("red", sofa.getColor());
 
         Sofa sofaRead = db.get(Sofa.class, uuid);
-
-        TestCase.assertEquals("red", sofa.getColor());
+        sofaRead.setColor("blue");
+        db.update(sofaRead);
     }
 
+    @Test
+    public void repository() {
+        SofaRepository repo = new SofaRepository(db);
+
+        Sofa sofa = new Sofa();
+        String uuid = UUID.randomUUID().toString();
+        sofa.setId(uuid);
+        sofa.setColor("green");
+
+        repo.add(sofa);
+        Assert.assertTrue(repo.contains(uuid));
+
+        Sofa sofaRead = repo.get(uuid);
+
+        sofaRead.setColor("white");
+        repo.update(sofaRead);
+
+        repo.remove(sofaRead);
+
+        List<Sofa> sofas = repo.getAll();
+        System.out.println("sofas: " + sofas.size());
+    }
 }
