@@ -6,7 +6,6 @@ import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -100,5 +99,18 @@ public class CouchDbApplicationTests {
 
         List<Sofa> sofas = repo.getAll();
         System.out.println("sofas: " + sofas.size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void duplication() {
+        SofaRepository repo = new SofaRepository(db);
+
+        Sofa sofa = new Sofa();
+        String uuid = UUID.randomUUID().toString();
+        sofa.setId(uuid);
+        sofa.setColor("green");
+
+        repo.add(sofa);
+        repo.add(sofa); // Throws
     }
 }
