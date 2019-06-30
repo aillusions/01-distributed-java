@@ -47,6 +47,7 @@
         <module>hyperledger-fabric</module>
         <module>mongodb</module>
         <module>couch-db</module>
+        <module>couch-base-spring-data</module>
     </modules>
 
 </project>

@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  # http://localhost:8091
+  dj-couchbase:
+    image: couchbase:6.0.1
+    container_name: dj-couchbase-srv
+    restart: always
+    ports:
+      - 8091-8094:8091-8094
+      - 11210:11210
+    volumes:
+      - dj_couchbase_data:/opt/couchbase/var
+    networks:
+      - dj-network
+
+networks:
+  dj-network:
+    name: dj-network
+
+
+volumes:
+  dj_couchbase_data:
+    name: dj_couchbase_data
