@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  dj-couch:
+    image: couchdb:2.3.1
+    container_name: dj-couch-srv
+    restart: always
+    ports:
+      - 5984:5984
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+    volumes:
+      - dj_couch_data:/opt/couchdb/data
+    networks:
+      - dj-network
+
+networks:
+  dj-network:
+    name: dj-network
+
+
+volumes:
+  dj_couch_data:
+    name: dj_couch_data

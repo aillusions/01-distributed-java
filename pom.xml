@@ -46,6 +46,7 @@
         <module>neo4j</module>
         <module>hyperledger-fabric</module>
         <module>mongodb</module>
+        <module>CouchDb</module>
     </modules>
 
 </project>
