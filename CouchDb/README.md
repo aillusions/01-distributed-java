@@ -14,3 +14,18 @@ More information can be found on the Eventual Consistency page of the CouchDB do
 Which system you go for would normally be determined by the priorities of your project. 
 If your app involves trading in financial data or online commerce, you might want to ensure that all clients have a consistent view of the data. 
 In other applications, the high availability offered by CouchDB might be more important, even if some clients are seeing data which is slightly out of date.
+
+
+CouchDB: 
+
+CouchDB uses a document store with data being presented in the JSON format. 
+It offers a RESTful HTTP API for reading, adding, editing, and deleting database documents. 
+Each document consists of fields and attachments. Fields can consist of numbers, text, booleans, lists, and more.
+The update model for CouchDB is optimistic and lockless. 
+This database structure, inspired by Lotus Notes, can be scaled from global clusters down to mobile devices.
+
+MongoDB: 
+MongoDB stores schema-free data using documents in the BSON format. 
+These collections of documents are not required to have a predefined structure, and columns can vary for different documents in the collection.
+MongoDB is schema-free, allowing you to create documents without having to first create the structure for that document. 
+At the same time, it still has many of the features of a relational database, including strong consistency and an expressive query language.
