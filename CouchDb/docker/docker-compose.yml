@@ -2,6 +2,10 @@ version: '3.5'
 
 services:
 
+  # curl http://127.0.0.1:5984/
+  # curl -X GET http://127.0.0.1:5984/_all_dbs
+  # curl --user admin:admin -X PUT http://127.0.0.1:5984/baseball
+  # http://127.0.0.1:5984/_utils/#login
   dj-couch:
     image: couchdb:2.3.1
     container_name: dj-couch-srv
