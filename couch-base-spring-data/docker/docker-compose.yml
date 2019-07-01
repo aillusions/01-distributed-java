@@ -3,6 +3,8 @@ version: '3.5'
 services:
 
   # http://localhost:8091
+  # admin / qwerty
+  # db-user / db-user-password
   dj-couchbase:
     image: couchbase:6.0.1
     container_name: dj-couchbase-srv
