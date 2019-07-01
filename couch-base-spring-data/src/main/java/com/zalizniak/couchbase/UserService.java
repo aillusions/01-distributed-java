@@ -1,4 +1,4 @@
-package com.zalizniak.couchbase.service;
+package com.zalizniak.couchbase;
 
 import java.util.List;
 import com.zalizniak.couchbase.dao.doc.UserBasicDoc;

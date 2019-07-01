@@ -1,11 +1,10 @@
-package com.zalizniak.couchbase.service.impl;
+package com.zalizniak.couchbase;
 
 import java.util.Optional;
 
 import com.zalizniak.couchbase.dao.doc.CarDoc;
 import com.zalizniak.couchbase.exception.ApiException;
 import com.zalizniak.couchbase.exception.ErrorType;
-import com.zalizniak.couchbase.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.couchbase.config.BeanNames;
