@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
 import org.springframework.data.couchbase.repository.auditing.EnableCouchbaseAuditing;
+import org.springframework.data.couchbase.repository.support.IndexManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.Collections;
@@ -47,5 +48,10 @@ public class Config extends AbstractCouchbaseConfiguration {
     @Bean
     public NaiveAuditorAware testAuditorAware() {
         return new NaiveAuditorAware();
+    }
+
+    @Override
+    public IndexManager indexManager() {
+        return new IndexManager(true, true, true);
     }
 }

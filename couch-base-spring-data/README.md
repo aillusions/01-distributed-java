@@ -9,3 +9,8 @@ https://github.com/eugenp/tutorials/tree/master/persistence-modules/spring-data-
 https://docs.couchbase.com/java-sdk/current/compatibility-versions-features.html
 
 https://github.com/spring-projects/spring-data-couchbase
+
+
+
+CREATE PRIMARY INDEX `#primary` ON `users`
+CREATE INDEX `userRepositorySecondaryIndex` ON `users`(`_class`) WHERE (`_class` = "com.zalizniak.couchbasespringdata.User")

@@ -38,4 +38,28 @@ public class CouchBaseSpringDataApplicationTests {
         Assert.assertNotNull(foundUser);
     }
 
+    @Test
+    public void shouldFindByLastnameEqualsIgnoreCase() {
+
+        User user = new User();
+        user.setFirstname("Alex");
+        user.setLastname("Zalizniak");
+
+        userRepository.save(user);
+
+        Assert.assertFalse(userRepository.findByLastnameEqualsIgnoreCase("zalizniak").isEmpty());
+    }
+
+    @Test
+    public void shouldFindUsersWithTheirFirstnameLike() {
+
+        User user = new User();
+        user.setFirstname("Alex");
+        user.setLastname("Zalizniak");
+
+        userRepository.save(user);
+
+        Assert.assertFalse(userRepository.findUsersWithTheirFirstnameLike("Al%").isEmpty());
+    }
+
 }
