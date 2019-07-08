@@ -7,6 +7,6 @@ spring:
       port: 8200
       scheme: http
       authentication: TOKEN
-      token: myroot
+#      token: myroot
       kv:
         enabled: true
