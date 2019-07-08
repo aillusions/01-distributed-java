@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: my-application
+  cloud:
+    vault:
+      host: localhost
+      port: 8200
+      scheme: http
+      authentication: TOKEN
+      token: myroot
+      kv:
+        enabled: true
