@@ -48,6 +48,8 @@
         <module>mongodb</module>
         <module>couch-db</module>
         <module>couch-base-spring-data</module>
+        <module>hashicorp-consul</module>
+        <module>hashicorp-vault</module>
     </modules>
 
 </project>

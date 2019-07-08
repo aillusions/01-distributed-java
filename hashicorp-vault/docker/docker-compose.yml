@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+
+  # http://localhost:8200/ui/vault/auth?with=token
+  # myroot
+  dj-vault:
+    image: vault:1.1.3
+    container_name: dj-vault-srv
+    ports:
+      - 8200:8200
+    volumes:
+      - dj_vault_data:/vault/file
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "myroot"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+      #VAULT_LOCAL_CONFIG: {"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}
+    networks:
+      - dj-network
+
+networks:
+  dj-network:
+    name: dj-network
+
+# docker volume rm dj_vault_data
+volumes:
+  dj_vault_data:
+    name: dj_vault_data

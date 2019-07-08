@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: testApplication
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        enabled: true
+        prefix: config
+        defaultContext: testApplication
+        profileSeparator: '::'
