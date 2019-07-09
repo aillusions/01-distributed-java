@@ -23,7 +23,7 @@ vault write database/roles/my-role \
     max_ttl="24h"
     
     
-vault read database/creds/my-role    
+vault read database/creds/my-role
 
     Key                Value
     ---                -----
