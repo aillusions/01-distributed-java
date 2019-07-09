@@ -2,6 +2,20 @@ version: '3.5'
 
 services:
 
+  dj-mysql:
+    image: mysql
+    container_name: dj-mysql-srv
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_DATABASE: dj-db
+    volumes:
+      - dj_mysql_data:/var/lib/mysql/
+    ports:
+      - 3306:3306
+    networks:
+      - dj-network
+
   # http://localhost:8200/ui/vault/auth?with=token
   # myroot
   dj-vault:
@@ -28,3 +42,5 @@ networks:
 volumes:
   dj_vault_data:
     name: dj_vault_data
+  dj_mysql_data:
+    name: dj_mysql_data
