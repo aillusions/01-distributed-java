@@ -50,6 +50,7 @@
         <module>couch-base-spring-data</module>
         <module>hashicorp-consul</module>
         <module>hashicorp-vault</module>
+        <module>hashicorp-vault-mysql</module>
     </modules>
 
 </project>
