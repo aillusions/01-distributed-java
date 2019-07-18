@@ -51,6 +51,7 @@
         <module>hashicorp-consul</module>
         <module>hashicorp-vault</module>
         <module>hashicorp-vault-mysql</module>
+        <module>http2-push</module>
     </modules>
 
 </project>
