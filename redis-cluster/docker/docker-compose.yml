@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+
+  redis-cluster:
+    image: grokzen/redis-cluster:5.0.5
+    environment:
+      IP: 0.0.0.0
+    hostname: server
+    ports:
+      - '7000-7007:7000-7007'
+      - '5000-5002:5000-5002'
+    networks:
+      - dj-network
+
+networks:
+  dj-network:
+    name: dj-network

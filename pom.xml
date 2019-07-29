@@ -52,6 +52,7 @@
         <module>hashicorp-vault</module>
         <module>hashicorp-vault-mysql</module>
         <module>http2-push</module>
+        <module>redis-cluster</module>
     </modules>
 
 </project>
