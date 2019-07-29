@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.Arrays;
 
@@ -20,7 +17,11 @@ public class RedisConfig {
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(new RedisClusterConfiguration(Arrays.asList()));
+        return new LettuceConnectionFactory(new RedisClusterConfiguration(Arrays.asList(
+                "localhost:7000",
+                "localhost:7001",
+                "localhost:7002"
+        )));
     }
 
     @Bean
@@ -28,16 +29,6 @@ public class RedisConfig {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(redisConnectionFactory);
         stringRedisTemplate.setEnableTransactionSupport(true);
         return stringRedisTemplate;
-    }
-
-
-    @Bean
-    public <T> RedisTemplate<String, T> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, T> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        return template;
     }
 
 }
