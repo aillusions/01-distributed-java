@@ -6,10 +6,25 @@ services:
     image: grokzen/redis-cluster:5.0.5
     environment:
       IP: 0.0.0.0
-    hostname: server
+    hostname: redis-cluster-srv
+    container_name: redis-cluster-srv
     ports:
       - '7000-7007:7000-7007'
       - '5000-5002:5000-5002'
+    networks:
+      - dj-network
+
+  # http://localhost:8081
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-cmd-srv
+    hostname: redis-cmd-srv
+    depends_on:
+      - redis-cluster
+    environment:
+      - REDIS_HOSTS=redis-1:redis-cluster-srv:7000,redis-2:redis-cluster-srv:7001,redis-3:redis-cluster-srv:7002
+    ports:
+      - "8081:8081"
     networks:
       - dj-network
 
