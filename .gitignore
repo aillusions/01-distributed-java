@@ -82,3 +82,7 @@ fabric.properties
 node_modules/**
 package-lock.json
 neo4j/docker/neo4j
+
+.idea
+*.iml
+target
