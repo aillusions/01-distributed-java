@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -52,6 +53,8 @@ public class RabbitmqApplicationTests {
     @Test
     public void testReceive() throws IOException, TimeoutException, InterruptedException {
 
+        CountDownLatch doneSignal = new CountDownLatch(1);
+
         try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
 
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -60,12 +63,13 @@ public class RabbitmqApplicationTests {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 System.out.println(" [x] Received '" + message + "'");
+                doneSignal.countDown();
             };
 
             channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
             });
 
-            Thread.sleep(1000);
+            doneSignal.await();
         }
     }
 }
