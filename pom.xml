@@ -54,6 +54,7 @@
         <module>http2-push</module>
         <module>redis-cluster</module>
         <module>rabbitmq</module>
+        <module>akka-cluster</module>
     </modules>
 
 </project>
