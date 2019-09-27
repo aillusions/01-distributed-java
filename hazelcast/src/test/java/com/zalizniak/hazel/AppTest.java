@@ -19,15 +19,18 @@ public class AppTest {
     @Test
     public void shouldAnswerWithTrue() {
         Config cfg = new Config();
-        HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
+        // Two nodes cluster
+        HazelcastInstance instance0 = Hazelcast.newHazelcastInstance(cfg);
+        HazelcastInstance instance1 = Hazelcast.newHazelcastInstance(cfg);
 
-        Map<Integer, String> mapCustomers = instance.getMap("customers");
-        mapCustomers.put(1, "Joe");
-        mapCustomers.put(2, "Ali");
+        Map<Integer, String> mapCustomers0 = instance0.getMap("customers");
+        mapCustomers0.put(1, "Joe");
+        mapCustomers0.put(2, "Ali");
 
-        Assert.assertEquals("Joe", mapCustomers.get(1));
+        Map<Integer, String> mapCustomers1 = instance0.getMap("customers");
+        Assert.assertEquals("Joe", mapCustomers1.get(1));
 
-        Queue<String> queueCustomers = instance.getQueue("customers");
+        Queue<String> queueCustomers = instance0.getQueue("customers");
         queueCustomers.offer("Tom");
         queueCustomers.offer("Mary");
         queueCustomers.offer("Jane");
