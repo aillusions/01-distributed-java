@@ -7,13 +7,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
+import java.util.Queue;
 
 /**
- * Unit test for simple App.
+ *
  */
 public class AppTest {
     /**
-     * Rigorous Test :-)
+     *
      */
     @Test
     public void shouldAnswerWithTrue() {
@@ -25,5 +26,14 @@ public class AppTest {
         mapCustomers.put(2, "Ali");
 
         Assert.assertEquals("Joe", mapCustomers.get(1));
+
+        Queue<String> queueCustomers = instance.getQueue("customers");
+        queueCustomers.offer("Tom");
+        queueCustomers.offer("Mary");
+        queueCustomers.offer("Jane");
+
+        Assert.assertEquals("Tom", queueCustomers.poll());
+        Assert.assertEquals("Mary", queueCustomers.peek());
+        Assert.assertEquals(2, queueCustomers.size());
     }
 }
